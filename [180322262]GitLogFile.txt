@@ -1,0 +1,11 @@
+commit f0cdb6f453b6d6cb86fca3a807dfef87c34fd467
+Author: Harry Syllantavos <harrysyllantavos@macbook-air.home>
+Date:   Sat Nov 6 15:08:57 2021 +0000
+
+    Set up markdown and imported data
+
+commit 90d554eb4d54a03527f7a038e909a6c3b5996d7e
+Author: Harry Syllantavos <harrysyllantavos@macbook-air.home>
+Date:   Sat Nov 6 13:55:04 2021 +0000
+
+    Set up Project Template

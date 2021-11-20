@@ -302,7 +302,7 @@ ggplot(ddf7, aes(x = steps7, y = se7)) + geom_point() + geom_smooth(col = "viole
 # interesting throughout
 
 
-ggplot(all_run_activity_step, aes(x = steps, y = se, colour = factor(run), group = run ))  + geom_smooth() +
+ggplot(all_run_activity_step, aes(x = steps, y = se, colour = factor(run), group = run ))  + geom_line() +
   xlab("Step number") + ylab("Step Engagement") + ggtitle("Plot of step engagement over the 7 runs") 
 
 # We observe that the step activity for run 1 is the highest. This can be explained by the fact
@@ -319,6 +319,95 @@ ggplot(all_run_activity_step, aes(x = steps, y = se, colour = factor(run), group
 # the number of enrollments was almost double. So this low engagement could explain the low
 # completion rate
 
+# In general we observe a declining trend in engagement. Also in all the runs we have a second
+# further decrease when week 2 starts. However there seems to be some max points for
+# run 1. If we look at the individual plot for run one we will observe that these correspond to
+# video steps, as well as the glossary. The observation about the glossary also stands out in run
+# 2, so the course developers should consider putting it back on the course, since it seemed 
+# popular. Also for runs 2-7 we observe a sharp decrease in one point, which is the point representing
+# the test. This is expected as the completion rate for these run was much lower. However, from
+# the graph before we saw that the completion for run 4 was much higher when compared to runs 3-7
+# but here the engagement on the steps is very similar. 
+
+# From the plots before we saw that the numebr of enrollments for 3 and 5 did not differ much, 
+# however the completion rate was higher for run 3. From the all activity plot however we see that
+# the engagement for run 3 is lower than that of run 5, so that would be an interesting thing to
+# look at
+
+# First let's look at the demographics for these specific groups.
+tt3 = table(cyber_security_3_enrolments$gender)
+gender_percent_3 = round(tt3*100/nrow(cyber_security_3_enrolments),2)
+
+tt5 = table(cyber_security_5_enrolments$gender)
+gender_percent_5 = round(tt5*100/nrow(cyber_security_5_enrolments),2)
+
+par(mfrow = c(1, 2))
+barplot(gender_percent_3, ylab = "%", main = "Run 3")
+barplot(gender_percent_5, ylab = "%", main = "Run 5")
+# When it comes to gender we do not really observe any differences 
+ttt3 = table(cyber_security_3_enrolments$age_range)
+age_percent_3 = round(ttt3*100/nrow(cyber_security_3_enrolments),2)
+
+ttt5 = table(cyber_security_5_enrolments$age_range)
+age_percent_5 = round(ttt5*100/nrow(cyber_security_5_enrolments),2)
+
+barplot(age_percent_3, ylab = "%", main = "Run 3", col = "olivedrab4")
+barplot(age_percent_5, ylab = "%", main = "Run 5", col = "deepskyblue3")
+# Here we observe something interesting. We see that in run 5 we have more people in the age 
+# ranges of 56-65 and >65, compared to run 3 that has more people in the age group 18-25 and 
+# 26- 35. So that could be an indication that these age groups are more interested in the course.
+# However it should be noted that the age range sample is quite small, so our conclusions 
+# may not be representative of the data set. 
+
+# Now for runs 3-7 we have some video stats that would be interesting to look, and we could 
+# also compare the ones for run 3 and 5: 
+
+# FIRST LOAD THE DATA 
+
+
+# Mporo na kano plot apo ta video gia na do se pia video upirxe consistency sti parakolouthisi
+# oste na boithisei thn etairia na dei pia video kratane to endiaferon
+cyber_security_3_video_stats <- 
+  read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-3_video-stats.csv")
+
+cyber_security_4_video_stats <- 
+  read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-4_video-stats.csv")
+
+cyber_security_5_video_stats <- 
+  read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-5_video-stats.csv")
+
+cyber_security_6_video_stats <- 
+  read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-6_video-stats.csv")
+
+cyber_security_7_video_stats <- 
+  read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-7_video-stats.csv")
+
+
+# RUN 3
+# Lets see the engagement for all the videos in run 3
+install.packages("gridExtra")
+require(gridExtra)
+
+p1 = ggplot(ndf3_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 1)") 
+
+p2 = ggplot(ndf3_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 2)") 
+
+p3 = ggplot(ndf3_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 3)") 
+
+grid.arrange(p1, p2, p3,  ncol=3)
+
+# By looking at the plot we see that two videos have quite constant engagement up to 75%. 
+# These are 3.1, 
+
+
+plot(cyber_security_3_video_stats$viewed_onehundred_percent, cyber_security_3_video_stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement")
+abline(lm(cyber_security_3_video_stats$video_duration ~ cyber_security_3_video_stats$viewed_onehundred_percent),
+       lty = 2 , col = "red")
 
 
 
