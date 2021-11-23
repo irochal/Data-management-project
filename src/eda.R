@@ -2,6 +2,7 @@ library(ProjectTemplate)
 setwd("/Volumes/KINGSTON")
 create.project("Data Management and EDA project")
 setwd("Data Management and EDA project")
+load.project()
 
 install.packages("ggplot2")
 library("ggplot2")
@@ -40,34 +41,17 @@ barplot(tail(sort(dc),23), col = 1:23)
 barplot(table(cyber_security_1_enrolments$gender))
 table(cyber_security_1_enrolments$gender)
 
-library(readr)
-cyber_security_2_enrolments <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-2_enrolments.csv")
-head(cyber_security_2_enrolments)
+# Find the number of people who enrolled in each graph 
 nr2 = nrow(cyber_security_2_enrolments)
 
-library(readr)
-cyber_security_3_enrolments <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-3_enrolments.csv")
-head(cyber_security_3_enrolments)
 nr3 = nrow(cyber_security_3_enrolments)
 
-library(readr)
-cyber_security_4_enrolments <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-4_enrolments.csv")
-head(cyber_security_4_enrolments)
 nr4 = nrow(cyber_security_4_enrolments)
 
-library(readr)
-cyber_security_5_enrolments <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-5_enrolments.csv")
-head(cyber_security_5_enrolments)
 nr5 = nrow(cyber_security_5_enrolments)
 
-library(readr)
-cyber_security_6_enrolments <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-6_enrolments.csv")
-head(cyber_security_6_enrolments)
 nr6 = nrow(cyber_security_6_enrolments)
 
-library(readr)
-cyber_security_7_enrolments <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-7_enrolments.csv")
-head(cyber_security_7_enrolments)
 nr7 = nrow(cyber_security_7_enrolments)
 
 
@@ -142,90 +126,61 @@ sort(table(d$detected_country))
 # ends and 
 
 # Let's have a better look on step activity know and how the engagement varies between the  runs 
-
-library(readr)
-cyber_security_1_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-1_step-activity.csv")
-head(cyber_security_1_step_activity)
-new_step_1 = (cyber_security_1_step_activity$week_number)*100 + cyber_security_1_step_activity$step_number
-cyber_security_1_step_activity_1 = cbind(cyber_security_1_step_activity, new_step_1)
- 
- 
-library(readr)
-cyber_security_2_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-2_step-activity.csv")
-head(cyber_security_2_step_activity)
-new_step_2 = (cyber_security_2_step_activity$week_number)*100 + cyber_security_2_step_activity$step_number
-cyber_security_2_step_activity_2 = cbind(cyber_security_2_step_activity, new_step_2)
-
-
-library(readr)
-cyber_security_3_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-3_step-activity.csv")
-head(cyber_security_3_step_activity)
-new_step_3 = (cyber_security_3_step_activity$week_number)*100 + cyber_security_3_step_activity$step_number
-cyber_security_3_step_activity_3 = cbind(cyber_security_3_step_activity, new_step_3)
-
-
-library(readr)
-cyber_security_4_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-4_step-activity.csv")
-head(cyber_security_4_step_activity)
-new_step_4 = (cyber_security_4_step_activity$week_number)*100 + cyber_security_4_step_activity$step_number
-cyber_security_4_step_activity_4 = cbind(cyber_security_4_step_activity, new_step_4)
-
-
-library(readr)
-cyber_security_5_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-5_step-activity.csv")
-head(cyber_security_5_step_activity)
-new_step_5 = (cyber_security_5_step_activity$week_number)*100 + cyber_security_5_step_activity$step_number
-cyber_security_5_step_activity_5 = cbind(cyber_security_5_step_activity, new_step_5)
-
-
-library(readr)
-cyber_security_6_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-6_step-activity.csv")
-head(cyber_security_6_step_activity)
-new_step_6 = (cyber_security_6_step_activity$week_number)*100 + cyber_security_6_step_activity$step_number
-cyber_security_6_step_activity_6 = cbind(cyber_security_6_step_activity, new_step_6)
-
-
-library(readr)
-cyber_security_7_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-7_step-activity.csv")
-head(cyber_security_7_step_activity)
-new_step_7 = (cyber_security_7_step_activity$week_number)*100 + cyber_security_7_step_activity$step_number
-cyber_security_7_step_activity_7 = cbind(cyber_security_7_step_activity, new_step_7)
-
+# RUN 1 
+par(mfrow = c(1, 2))
 
 t1 = table(cyber_security_1_step_activity_1$new_step_1)
 dft1 = as.data.frame(t1)
 se1 = dft1[,2]
 steps1 = dft1[,1]
 
-plot(steps1,se1, xlab = "Step number", ylab = "People engaging in each step", 
-     main = "Plot of step activity against step number")
-text(2.1, 4750, labels= "2.1")
-points(2.1, 4489, col = "red", pch = 19)
-text(2.23, 4297, labels = "2.2")
-points(2.2, 4297, col = "blue", pch = 19)
-abline(lm(se1~steps1), col = "red", lty = 2)
+t1_complete = as.data.frame(table(cyber_security_1_step_activity_1$new_step_1[cyber_security_1_step_activity_1$last_completed_at != ""]))
+
+plot(as.numeric(steps1), (t1_complete[,2]/dft1[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 1) ")
+axis(1,at = 1:60, labels = steps1)
+
 
 ddf1 = data.frame(steps1, se1)
-ggplot(ddf1, aes(x = steps1, y = se1)) + geom_point() + geom_smooth() + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 1")
-
+plot(as.numeric(steps1), se1, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 1)")
+axis(1,at = 1:60, labels = steps1)
+lines(t1_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+        col=c("black", "red"), lty=1:2, cex=0.8)
 
 # This plots shows a very clear declining trend in students engagement, as the weeks progress. We see
 # some points that standout. These are 1.18, 3.18 and 3.21. Now 1.18 is a video, 3.18 is the test and 
 # 3.21 is the glossary and referebces. So we see that in general people have interacted with the glosary
 # so this may be an important section of the course that needs to stay in. Also for this specific run, it 
-#seems that the engagement for the test was unexpectedly high. 
+#seems that the engagement for the test was unexpectedly high, BUT COMPLETION WAS QUITE LOW . 
 
 # Now let's check if the same trends follows in all of the runs 
+# RUN 2
 
 t2 = table(cyber_security_2_step_activity_2$new_step_2)
 dft2 = as.data.frame(t2)
 se2 = dft2[,2]
 steps2 = dft2[,1]
 
+t2_complete = as.data.frame(table(cyber_security_2_step_activity_2$new_step_2[cyber_security_2_step_activity_2$last_completed_at != ""]))
+
+par(mfrow = c(1, 2))
+
+plot(as.numeric(steps2), (t2_complete[,2]/dft2[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 2) ")
+axis(1,at = 1:63, labels = steps2)
+
+
 ddf2 = data.frame(steps2, se2)
-ggplot(ddf2, aes(x = steps2, y = se2)) + geom_point() + geom_smooth(col = "red") + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 2") 
+plot(as.numeric(steps2), se2, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number in run 2")
+axis(1,at = 1:63, labels = steps2)
+lines(t2_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8)
 
 # We observe the same declining trend here. Moreover 3.21 seems to be a section that has more engagement
 #Also the engagement for 1.19 seems to be a bit higher. We note here that 1.19 is a video, so again we 
@@ -233,19 +188,35 @@ ggplot(ddf2, aes(x = steps2, y = se2)) + geom_point() + geom_smooth(col = "red")
 # seems to have an extremelly low engagement, which is expected since this course had the lower number
 # of completion. So this low completion might no mean that the participants failed the test, but most 
 #probably it means that the did not even engage with the test. 
-  
+
+# RUN 3
 t3 = table(cyber_security_3_step_activity_3$new_step_3)
 dft3 = as.data.frame(t3)
 se3= dft3[,2]
 steps3 = dft3[,1]
 
 ddf3 = data.frame(steps3, se3)
-ggplot(ddf3, aes(x = steps3, y = se3)) + geom_point() + geom_smooth(col = "green") + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 3") 
+t3_complete = as.data.frame(table(cyber_security_3_step_activity_3$new_step_3[cyber_security_3_step_activity_3$last_completed_at != ""]))
+
+par(mfrow = c(1, 2))
+
+plot(as.numeric(steps3), (t3_complete[,2]/dft3[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 3) ")
+axis(1,at = 1:62, labels = steps3)
 
 
-# Again we observe a declining trend, with the same outliers 
+plot(as.numeric(steps3), se3, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 3)")
+axis(1,at = 1:62, labels = steps3)
+lines(t3_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8)
 
+# Again we observe a declining trend, with the same outliers. Here we dont have the glossary. However, 
+# this could be a section to keep in. Here engagement follows completion
+
+# RUN 4
 t4 = table(cyber_security_4_step_activity_4$new_step_4)
 dft4 = as.data.frame(t4)
 se4 = dft4[,2]
@@ -253,59 +224,117 @@ steps4 = dft4[,1]
 coords = paste(steps4,se4,sep=",")
 
 ddf4 = data.frame(steps4, se4)
-ggplot(ddf4, aes(x = steps4, y = se4)) + geom_point() + geom_smooth(col = "salmon") + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 4")
+t4_complete = as.data.frame(table(cyber_security_4_step_activity_4$new_step_4[cyber_security_4_step_activity_4$last_completed_at != ""]))
 
+par(mfrow = c(1, 2))
+
+plot(as.numeric(steps4), (t4_complete[,2]/dft4[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 4) ")
+axis(1,at = 1:62, labels = steps4)
+
+
+plot(as.numeric(steps4), se4, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 4)")
+axis(1,at = 1:62, labels = steps4)
+lines(t4_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8)
 
 # Again we observe a declining trend, with the same outliers 
 
+# RUN 5 
 t5 = table(cyber_security_5_step_activity_5$new_step_5)
 dft5 = as.data.frame(t5)
 se5 = dft5[,2]
 steps5 = dft5[,1]
-
 ddf5 = data.frame(steps5, se5)
-ggplot(ddf5, aes(x = steps5, y = se5)) + geom_point() + geom_smooth(col = "slateblue1") + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 5") 
+
+t5_complete = as.data.frame(table(cyber_security_5_step_activity_5$new_step_5[cyber_security_5_step_activity_5$last_completed_at != ""]))
+
+par(mfrow = c(1, 2))
+
+plot(as.numeric(steps5), (t5_complete[,2]/dft5[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 5) ")
+axis(1,at = 1:62, labels = steps5)
+
+
+plot(as.numeric(steps5), se5, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 5)")
+axis(1,at = 1:62, labels = steps5)
+lines(t5_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8)
+
 
 # Again we observe the same declining trend. Again we have the same outliers, but here for steps
 #starting in week 2 we see a stabilisation in engagement compared to steps in week 3
 
-
+# RUN 6
 t6 = table(cyber_security_6_step_activity_6$new_step_6)
 dft6 = as.data.frame(t6)
 se6 = dft6[,2]
 steps6 = dft6[,1]
 
 ddf6 = data.frame(steps6, se6)
-ggplot(ddf6, aes(x = steps6, y = se6)) + geom_point() + geom_smooth(col = "yellow") + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 6") 
+t6_complete = as.data.frame(table(cyber_security_6_step_activity_6$new_step_6[cyber_security_6_step_activity_6$last_completed_at != ""]))
 
-# Again soe declining trend. However quite stabilised. 
-#We have the same outliers 
+par(mfrow = c(1, 2))
 
+plot(as.numeric(steps6), (t6_complete[,2]/dft6[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 6) ")
+axis(1,at = 1:62, labels = steps6)
+
+
+plot(as.numeric(steps6), se6, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 6)")
+axis(1,at = 1:62, labels = steps6)
+lines(t6_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8)
+
+# Again soe declining trend. However here for step 1.03 we see a big different in starting engagement
+# and completion 
+
+# RUN 7 
 t7 = table(cyber_security_7_step_activity_7$new_step_7)
 dft7 = as.data.frame(t7)
 se7 = dft7[,2]
 steps7 = dft7[,1]
 
 ddf7 = data.frame(steps7, se7)
-ggplot(ddf7, aes(x = steps7, y = se7)) + geom_point() + geom_smooth(col = "violet") + xlab("Step number") +
-  ylab("People engaging in each step") + ggtitle("Plot of step activity against step number in run 7") 
+t7_complete = as.data.frame(table(cyber_security_7_step_activity_7$new_step_7[cyber_security_7_step_activity_7$last_completed_at != ""]))
+
+par(mfrow = c(1, 2))
+
+plot(as.numeric(steps7), (t7_complete[,2]/dft7[,2])*100, type = "l", xaxt = "n", 
+     ylab = "Percentage of people who completed each step", xlab = "Step number", 
+     main = "Plot of percentage of people participating that complited each step (Run 7) ")
+axis(1,at = 1:62, labels = steps7)
 
 
-# Again we observe the same trend
+plot(as.numeric(steps7), se4, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 7)")
+axis(1,at = 1:62, labels = steps7)
+lines(t7_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8)
 
 
-# Also what we observe in all runs is that for sections 1.2-1.9 there seems to be in general a 
-# much higher engagement, so this could be a section that in general the participants find more 
-# interesting throughout
+#Again we observe the same declining trend. However this run is the one with the biggest difference in
+# engagement and completion
 
 
-ggplot(all_run_activity_step, aes(x = steps, y = se, colour = factor(run), group = run ))  + geom_line() +
-  xlab("Step number") + ylab("Step Engagement") + ggtitle("Plot of step engagement over the 7 runs") 
+# step_act = ggplot(all_run_activity_step, aes(x = steps, y = se, colour = factor(run), group = run ))  + geom_line() +
+#  xlab("Step number") + ylab("Step Engagement") + ggtitle("Plot of step engagement over the 7 runs") + ylim(0,5000)
 
-# We observe that the step activity for run 1 is the highest. This can be explained by the fact
+complete_step_act = ggplot(all_run_activity_step_complete, aes(x = steps, y = se, colour = factor(run), group = run ))  + geom_line() +
+  xlab("Step number") + ylab("Completed Step Engagement") + ggtitle("Plot of completed step engagement over the 7 runs") + ylim(0,5000)
+complete_step_act
+
+# We observe that the step activity completion  for run 1 is the highest. This can be explained by the fact
 # that the enrollments for this run were the highest. However, when compared to the other 6 runs
 # we observe that the engagement declines much faster (the slope is steeper) for this run. 
 # Also we observe that 6,7 have the lowest engagement. This is also expected since these were the
@@ -388,31 +417,204 @@ cyber_security_7_video_stats <-
 install.packages("gridExtra")
 require(gridExtra)
 
-p1 = ggplot(ndf3_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+p1_run3 = ggplot(ndf3_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
   xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 1)") 
 
-p2 = ggplot(ndf3_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+p2_run3 = ggplot(ndf3_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
   xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 2)") 
 
-p3 = ggplot(ndf3_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+p3_run3 = ggplot(ndf3_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
   xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 3)") 
 
-grid.arrange(p1, p2, p3,  ncol=3)
 
-# By looking at the plot we see that two videos have quite constant engagement up to 75%. 
-# These are 3.1, 
+# Here lets see which videos had the biggest turnover
+video_eng = cyber_security_3_video_stats$viewed_five_percent - cyber_security_3_video_stats$viewed_ninetyfive_percent
+d3f = data.frame(step = cyber_security_3_video_stats$step_position , left = video_eng)  
+d3f
+d3f_plot = ggplot(d3f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 3)") + ylim(0,27)
+
+grid.arrange(p1_run3, p2_run3, p3_run3,d3f_plot,nrow = 2, ncol=2)
 
 
-plot(cyber_security_3_video_stats$viewed_onehundred_percent, cyber_security_3_video_stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
-     main = "Plot of video duration vs engagement")
-abline(lm(cyber_security_3_video_stats$video_duration ~ cyber_security_3_video_stats$viewed_onehundred_percent),
+# By looking at the plot we see that all video have a very large decline from 95% to 100%.
+# So it is better to draw conclusions by looking up to 95%
+# In general for week 1 we observe the most decline in engagement for video 1.5
+# For week 2 we observe a steep decline for videos 2.4 and 2.11 and fro week 3 in general we observe quite a 
+# constant engagement in the videos, with video 3.14 being the one where more people left 
+#However remember from the previous plots that the engagement in the steps
+# during week 3 was lower, so probably the people that have stayed through week 3 are interested in the course
+video_duration_3 = data.frame(step_position = cyber_security_3_video_stats$step_position,
+                              duration = cyber_security_3_video_stats$video_duration)
+video_duration_3
+
+# From the graph we observe that when people watch up to 95% of the video then there is a 
+# sudden decline in engagement (probably people just don't watch the final minutes)
+# (the course developers should look not to include important things on the last minutes)
+# So we can take a better look at the engagement up to 95%. 
+
+plot(cyber_security_3_video_stats$viewed_ninetyfive_percent, cyber_security_3_video_stats$video_duration,
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 3")
+abline(lm(cyber_security_3_video_stats$video_duration ~ cyber_security_3_video_stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
 
+cor(cyber_security_3_video_stats$viewed_ninetyfive_percent, cyber_security_3_video_stats$video_duration)
+
+# We observe that there is a strong negative correlation (-0.8068828) between engagement and duration. 
+# So in general when the duration is higher, less people tend to watch 95% of the videos. 
+
+# From the plot above we see that in general the longer the videos the less the 100% engagement
+# From the table, we observe that the videos which had the highest decline in engagement are 
+# indeed the ones that are some with longer in duration. So the developers of the course might want to
+# create shorter videos
+
+# Now let's look if that happens in the other runs. And then we can also focus on runs 3 and 5. 
+
+# RUN 4 
+p1_run4 = ggplot(ndf4_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 1)") 
+
+p2_run4 = ggplot(ndf4_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 2)") 
+
+p3_run4 = ggplot(ndf4_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 3)") 
 
 
+# Here lets see which videos had the biggest turnover
+video_eng = cyber_security_4_video_stats$viewed_five_percent - cyber_security_4_video_stats$viewed_ninetyfive_percent
+d4f = data.frame(step = cyber_security_4_video_stats$step_position , left = video_eng)  
+d4f
+d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
+
+grid.arrange(p1_run4, p2_run4, p3_run4,d4f_plot, nrow = 2, ncol=2)
 
 
+# Here we observe again a similar declining pattern in engagement. For week 1 we observe the 
+# highest decline in 1.5 before. For week two again we observe the biggest drop in engagement for videos  
+# 2.11 and 2.4. For week 3 engagement seems pretty constant like before . 
+
+video_duration_4 = data.frame(step_position = cyber_security_4_video_stats$step_position,
+                              duration = cyber_security_4_video_stats$video_duration)
+video_duration_4
+
+# Now let's look if there is a relationship between duration and engagement here as well
+
+plot(cyber_security_4_video_stats$viewed_ninetyfive_percent, cyber_security_4_video_stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 4)")
+abline(lm(cyber_security_4_video_stats$video_duration ~ cyber_security_4_video_stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+
+cor(cyber_security_4_video_stats$viewed_ninetyfive_percent, cyber_security_4_video_stats$video_duration)
+
+# Here we see again a very strong negative correlation between engagement and duration (-0.817063)
+
+# RUN 5 
+p1_run5 = ggplot(ndf5_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 1)") 
+
+p2_run5 = ggplot(ndf5_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 2)") 
+
+p3_run5 = ggplot(ndf5_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 3)") 
+
+video_eng = cyber_security_5_video_stats$viewed_five_percent - cyber_security_5_video_stats$viewed_ninetyfive_percent
+d5f = data.frame(step = cyber_security_5_video_stats$step_position , left = video_eng)  
+d5f
+d5f_plot = ggplot(d5f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
+
+grid.arrange(p1_run5, p2_run5, p3_run5,d5f_plot,nrow = 2, ncol=2)
+
+# Again we observe very similar patterns as before. However in week 1, video 1.19 is more popular when compared
+# to the other weeks and in general for week 1 there is a decline in people leaving 
+
+plot(cyber_security_5_video_stats$viewed_ninetyfive_percent, cyber_security_5_video_stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 5)")
+abline(lm(cyber_security_5_video_stats$video_duration ~ cyber_security_5_video_stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+
+cor(cyber_security_5_video_stats$viewed_ninetyfive_percent, cyber_security_5_video_stats$video_duration)
+# Here we observe less correlation between duration and engagement. Could this mean that younger people
+# have longer attention span and do engage more with videos of longer duration? 
+# Reamber that in week 1 videos in general were longer and for this run we observe a different pattern 
 
 
+# RUN 6
+p1_run6 = ggplot(ndf6_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 6 (Week 1)") 
+
+p2_run6 = ggplot(ndf6_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 6 (Week 2)") 
+
+p3_run6 = ggplot(ndf6_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 6 (Week 3)") 
+
+video_eng = cyber_security_6_video_stats$viewed_five_percent - cyber_security_6_video_stats$viewed_ninetyfive_percent
+d6f = data.frame(step = cyber_security_6_video_stats$step_position , left = video_eng)  
+d6f
+d6f_plot = ggplot(d6f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
+
+grid.arrange(p1_run6, p2_run6, p3_run6,d6f_plot,nrow = 2, ncol=2)
+
+# Again we observe very similar patterns as before. However in week 1, video 1.19 is more popular when compared
+# to the other weeks and in general for week 1 there is a decline in people leaving ????
+
+plot(cyber_security_6_video_stats$viewed_ninetyfive_percent, cyber_security_6_video_stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 6)")
+abline(lm(cyber_security_6_video_stats$video_duration ~ cyber_security_6_video_stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+
+cor(cyber_security_6_video_stats$viewed_ninetyfive_percent, cyber_security_6_video_stats$video_duration)
+
+# Again here there is a strong negative correlation between engagement and duration (-0.7175826)
+
+# RUN 7 
+p1_run7 = ggplot(ndf7_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 7 (Week 1)") 
+
+p2_run7 = ggplot(ndf7_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 7 (Week 2)") 
+
+p3_run7 = ggplot(ndf7_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 7 (Week 3)") 
+
+video_eng = cyber_security_7_video_stats$viewed_five_percent - cyber_security_7_video_stats$viewed_ninetyfive_percent
+d7f = data.frame(step = cyber_security_7_video_stats$step_position , left = video_eng)  
+d7f
+d7f_plot = ggplot(d7f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
+
+grid.arrange(p1_run7, p2_run7, p3_run6,d7f_plot,nrow = 2, ncol=2)
+
+# Again we observe very similar patterns as before. However in week 1, video 1.17 has higher turnover,
+# when compared to the other runs
+
+plot(cyber_security_7_video_stats$viewed_ninetyfive_percent, cyber_security_7_video_stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 7)")
+abline(lm(cyber_security_7_video_stats$video_duration ~ cyber_security_7_video_stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+
+cor(cyber_security_7_video_stats$viewed_ninetyfive_percent, cyber_security_7_video_stats$video_duration)
+# Again very strong negative correlation (-0.8331848)
+
+
+grid.arrange(d3f_plot, d4f_plot, d5f_plot, d6f_plot, d7f_plot)
+
+# we observe that for all runs video 1.5 (281) has the largest dropout rate among all videos in week 1 and 
+# all videos in general. Then for week 2 video 2.11 has the largest dropout (312) and for week 3
+#except from run 6, video 3.14 (313) is the one with the highest dropout. 
+# Now the videos with the lowest dropouts among all weeks for most? runs are videos 2.1 (37) and 
+# 2.17 (92)
+# Also what is quite interesting is that video 2.4 has the longest duration, but it is not the one
+# with the highest dropout. On the other hand other videos seem to have higher dropout even if they are
+# Shorter. So this may be an area that people find interesting. 
 
