@@ -6,9 +6,6 @@ library(tidyverse)
 video_df3 = data.frame(cyber.security.3_video.stats$step_position, cyber.security.3_video.stats[,9:15]) 
 colnames(video_df3) = c("Step position",5,10,25,50,75,95,100)
 all_video_3 = pivot_longer(video_df3, cols = !starts_with("Step"))
-view(all_video_3)
-
-
 
 plot(cyber.security.3_video.stats$viewed_onehundred_percent, cyber.security.3_video.stats$video_duration,
      xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
@@ -33,7 +30,6 @@ d3f
 video_df4 = data.frame(cyber.security.4_video.stats$step_position, cyber.security.4_video.stats[,9:15]) 
 colnames(video_df4) = c("Step position",5,10,25,50,75,95,100)
 all_video_4 = pivot_longer(video_df4, cols = !starts_with("Step"))
-view(all_video_4)
 
 # Separate the videos by weeks
 
@@ -46,7 +42,6 @@ ndf4_video_week3 = all_video_4[64:91,]
 video_df5 = data.frame(cyber.security.5_video.stats$step_position, cyber.security.5_video.stats[,9:15]) 
 colnames(video_df5) = c("Step position",5,10,25,50,75,95,100)
 all_video_5 = pivot_longer(video_df5, cols = !starts_with("Step"))
-view(all_video_5)
 
 # Separate the videos by weeks
 
@@ -59,7 +54,6 @@ ndf5_video_week3 = all_video_5[64:91,]
 video_df6 = data.frame(cyber.security.6_video.stats$step_position, cyber.security.6_video.stats[,9:15]) 
 colnames(video_df6) = c("Step position",5,10,25,50,75,95,100)
 all_video_6 = pivot_longer(video_df6, cols = !starts_with("Step"))
-view(all_video_6)
 
 # Separate the videos by weeks
 
@@ -72,7 +66,6 @@ ndf6_video_week3 = all_video_6[64:91,]
 video_df7 = data.frame(cyber.security.7_video.stats$step_position, cyber.security.7_video.stats[,9:15]) 
 colnames(video_df7) = c("Step position",5,10,25,50,75,95,100)
 all_video_7 = pivot_longer(video_df7, cols = !starts_with("Step"))
-view(all_video_7)
 
 # Separate the videos by weeks
 
