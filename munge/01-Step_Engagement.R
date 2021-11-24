@@ -32,6 +32,70 @@ cyber.security.7_step.activity_7 = cbind(cyber.security.7_step.activity, new_ste
 
 
 # Create a combined data frame 
+# 
+# RUN 1
+t1 = table(cyber.security.1_step.activity_1$new_step_1)
+dft1 = as.data.frame(t1)
+se1 = dft1[,2]
+steps1 = dft1[,1]
+
+t1_complete = as.data.frame(table(cyber.security.1_step.activity_1$new_step_1[cyber.security.1_step.activity_1$last_completed_at != ""]))
+# RUN 2
+t2 = table(cyber.security.2_step.activity_2$new_step_2)
+dft2 = as.data.frame(t2)
+se2 = dft2[,2]
+steps2 = dft2[,1]
+
+t2_complete = as.data.frame(table(cyber.security.2_step.activity_2$new_step_2[cyber.security.2_step.activity_2$last_completed_at != ""]))
+
+# RUN 3
+t3 = table(cyber.security.3_step.activity_3$new_step_3)
+dft3 = as.data.frame(t3)
+se3= dft3[,2]
+steps3 = dft3[,1]
+
+ddf3 = data.frame(steps3, se3)
+t3_complete = as.data.frame(table(cyber.security.3_step.activity_3$new_step_3[cyber.security.3_step.activity_3$last_completed_at != ""]))
+
+# RUN 4
+t4 = table(cyber.security.4_step.activity_4$new_step_4)
+dft4 = as.data.frame(t4)
+se4 = dft4[,2]
+steps4 = dft4[,1]
+coords = paste(steps4,se4,sep=",")
+
+ddf4 = data.frame(steps4, se4)
+t4_complete = as.data.frame(table(cyber.security.4_step.activity_4$new_step_4[cyber.security.4_step.activity_4$last_completed_at != ""]))
+
+# RUN 5
+t5 = table(cyber.security.5_step.activity_5$new_step_5)
+dft5 = as.data.frame(t5)
+se5 = dft5[,2]
+steps5 = dft5[,1]
+ddf5 = data.frame(steps5, se5)
+
+t5_complete = as.data.frame(table(cyber.security.5_step.activity_5$new_step_5[cyber.security.5_step.activity_5$last_completed_at != ""]))
+
+# RUN 6 
+t6 = table(cyber.security.6_step.activity_6$new_step_6)
+dft6 = as.data.frame(t6)
+se6 = dft6[,2]
+steps6 = dft6[,1]
+
+ddf6 = data.frame(steps6, se6)
+t6_complete = as.data.frame(table(cyber.security.6_step.activity_6$new_step_6[cyber.security.6_step.activity_6$last_completed_at != ""]))
+
+# RUN 7 
+t7 = table(cyber.security.7_step.activity_7$new_step_7)
+dft7 = as.data.frame(t7)
+se7 = dft7[,2]
+steps7 = dft7[,1]
+
+ddf7 = data.frame(steps7, se7)
+t7_complete = as.data.frame(table(cyber.security.7_step.activity_7$new_step_7[cyber.security.7_step.activity_7$last_completed_at != ""]))
+
+
+
 run1 = rep(1, times = length(t1))
 ndf1 = as.data.frame(cbind(steps = steps1, se = se1, run = run1))
 

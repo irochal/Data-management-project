@@ -1,3 +1,39 @@
+commit 15535f4fe9f517768007b9410efb690571820270
+Author: Harry Syllantavos <harrysyllantavos@newhuaweiapstudent-10-58-214-193.ncl.ac.uk>
+Date:   Tue Nov 23 18:54:45 2021 +0000
+
+     Created graphs for step engagement and for completed step engagement
+
+commit 8e137d2b16490843ea9a7ee70678bd2a2c8791cc
+Author: Harry Syllantavos <harrysyllantavos@newhuaweiapstudent-10-58-214-193.ncl.ac.uk>
+Date:   Tue Nov 23 18:53:06 2021 +0000
+
+    Created second munge file for video stats preprocessing
+
+commit 8d913a5a2a376f2bc185ada29b40f7d611d24205
+Author: Harry Syllantavos <harrysyllantavos@newhuaweiapstudent-10-58-214-193.ncl.ac.uk>
+Date:   Tue Nov 23 18:52:00 2021 +0000
+
+    Create munge file for step activity data prepocessing
+
+commit d5ff3d1c82bf4c6da36f1cdc657fb8f06f8f1128
+Author: Harry Syllantavos <harrysyllantavos@macbook-air.home>
+Date:   Sat Nov 20 13:50:57 2021 +0000
+
+    Commiting all changes time 1
+
+commit f0d2a88b4eba2500946a16dc2300affe6415cf1f
+Author: Harry Syllantavos <harrysyllantavos@macbook-air.home>
+Date:   Sat Nov 20 13:30:33 2021 +0000
+
+    Data preprocessing 1
+
+commit 5ed687f588a8d22dd78fc2b0223cb7ec7dd6ef80
+Author: Harry Syllantavos <harrysyllantavos@newhuaweiapstudent-10-58-197-174.ncl.ac.uk>
+Date:   Thu Nov 18 15:37:32 2021 +0000
+
+    Created main project r file
+
 commit f0cdb6f453b6d6cb86fca3a807dfef87c34fd467
 Author: Harry Syllantavos <harrysyllantavos@macbook-air.home>
 Date:   Sat Nov 6 15:08:57 2021 +0000
