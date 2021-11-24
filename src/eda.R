@@ -94,187 +94,161 @@ plot(number_of_sucessfull_completions, xlab = "Run number", ylab = "% of people 
 
 # We observe that for example in run 2 even though we have more people enrolled compared to runs 
 # 3-7, the percentage of people that actually completed the course is the lowest. 
+# In general we obsere a declining trend in participation, which has shown a somewhat stable participation
+# during runs 3-5 and then the declining trend continues.
+# What is really interesting here is that for runs 5-7 we observe a declining trend in enrolments, but an increasing
+# trend in completion. Let,s look further into that 
+
+par(mfrow = c(2, 2))
+df4 = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df4_gender = df4[apply(df4 != "", 1, all),]
+barplot(table(df4_gender$gender), main = "Run 4", xlab = "Gender", ylab = "Number", col = "darkseagreen2")
+
+df5 = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df5_gender = df5[apply(df5 != "", 1, all),]
+barplot(table(df5_gender$gender), main = "Run 5", xlab = "Gender", ylab = "Number", col = "salmon")
+
+df1_6 = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df1_6_gender = df1_6[apply(df1_6 != "", 1, all),]
+barplot(table(df1_6_gender$gender),  ylim = c(0,200), main = "Run 6", xlab = "Gender", ylab = "Number", col = "violet")
+
+df1_7 = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df1_7_gender = df1_7[apply(df1_7 != "", 1, all),]
+barplot(table(df1_7_gender$gender), ylim = c(0,200), main = "Run 7", xlab = "Gender", ylab = "Number", col = "yellow")
+# INCLUDE THAT IN THE REPORT: In run 4, 6 and 7 , of those who registered their gender there were more males compared
+# to females that completed the course. However the data is not sufficient. Especially for run 4 and 7 which have 
+# the highest completion rate amongst the 4, this pattern is more visible. In run 5 again we can see this patter,
+# but there were so little people with registered gender, which makes this insight not very useful
+
+# In general there is some evidence that in the runs with higher completion there were more males who completed
+# the course, but since there are many unknowns this may not be representative of what happens in reality
+
+# Let's also take a look at the age ranges in these runs
+df4_age = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df4_age_all = df4_age[apply(df4_age != "", 1, all),]
+barplot(table(df4_age_all$age_range), col = "darkseagreen2", main = "Run 4", xlab = "Number")
 
 
-df1 = cyber.security.2_enrolments[, c("learner_id", "fully_participated_at", "gender")]
-view(df1)
-df1_gender = df1[apply(df1 != "", 1, all),]
-df1_gender_na = unknownToNA(df1_gender, unknown = "Unknown")
-na.omit(df1_gender_na)
+df5_age = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df5_age_all = df5_age[apply(df5_age != "", 1, all),]
+barplot(table(df5_age_all$age_range), col = "salmon", main = "Run 5", xlab = "Number")
+
+df6_age = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df6_age_all = df6_age[apply(df6_age != "", 1, all),]
+barplot(table(df6_age_all$age_range), col = "violet", main = "Run 6", xlab = "Number")
+
+df7_age = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df7_age_all = df7_age[apply(df7_age != "", 1, all),]
+barplot(table(df7_age_all$age_range), col = "yellow", main = "Run 7", xlab = "Number")
+
+# We observe in runs 4,6 and 7 more younger people to have completed. However for run 5, the only two poeple,
+# who had registered age group were >65. So age may be a factor affecting completion, but again not certain results. 
 
 
-# INCLUDE THAT IN THE REPORT: It does not work bc there are not enough data 
+leaving_reason_t5 = table(cyber.security.5_leaving.survey.responses$leaving_reason)
+barplot(leaving_reason_t5/nrow(cyber.security.5_leaving.survey.responses)*100, col = 1:8)
 
+nrow(cyber.security.4_leaving.survey.responses)
+nrow(cyber.security.5_leaving.survey.responses)
+nrow(cyber.security.6_leaving.survey.responses)
+nrow(cyber.security.7_leaving.survey.responses)
 
-df2 = cyber.security.2_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
-df2_age = df1[apply(df2 != "", 1, all),]
-df2_age_na = unknownToNA(df2_age, unknown = "Unknown")
-na.omit(df2_age_na)
-
-# Similarly this does not work because we do not have enough data 
-
-
-df3 = cyber.security.2_enrolments[, c("learner_id", "fully_participated_at", "detected_country")]
-df3_country = df3[apply(df3 != "", 1, all),]
-df3_country_na = unknownToNA(df3_country, unknown = "Unknown")
-f = na.omit(df3_country_na)
-
-barplot(table(f$detected_country), ylim = c(0,25), col = ifelse(table(f$detected_country)> 10, "red", "green"))
-sort(table(f$detected_country))
-
-df4 = cyber.security.1_enrolments[, c("learner_id", "fully_participated_at", "detected_country")]
-df4_country = df4[apply(df4 != "", 1, all),]
-df4_country_na = unknownToNA(df4_country, unknown = "Unknown")
-d = na.omit(df4_country_na)
-barplot(table(d$detected_country), ylim = c(0,1000))
-sort(table(d$detected_country))
+leaving_numbers = c(nrow(cyber.security.4_leaving.survey.responses), nrow(cyber.security.5_leaving.survey.responses),
+                    nrow(cyber.security.6_leaving.survey.responses), nrow(cyber.security.7_leaving.survey.responses))
 
 # I may be approaching the end of the first CRISPDM cycle because I have reached some dead
-# ends and 
+# ends. 
 
 # Let's have a better look on step activity know and how the engagement varies between the  runs 
 # RUN 1 
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps1), (t1_complete[,2]/dft1[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 1) ")
-axis(1,at = 1:60, labels = steps1)
-
+par(mfrow = c(2, 4))
 
 ddf1 = data.frame(steps1, se1)
 plot(as.numeric(steps1), se1, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 1)")
 axis(1,at = 1:60, labels = steps1)
 lines(t1_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-        col=c("black", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("Participated", "Completed"),
+        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
 # This plots shows a very clear declining trend in students engagement, as the weeks progress. We see
 # some points that standout. These are 1.18, 3.18 and 3.21. Now 1.18 is a video, 3.18 is the test and 
 # 3.21 is the glossary and referebces. So we see that in general people have interacted with the glosary
 # so this may be an important section of the course that needs to stay in. Also for this specific run, it 
 #seems that the engagement for the test was unexpectedly high, BUT COMPLETION WAS QUITE LOW . 
+# In general there is a more sudden decline in week 2, and from then on the decline is more gradual.
+# Also some oints that seem to have a lag between completion and engagement are 2.8 and 3.11 are both quiz
+# sections, so it seems like people engage with those but don't complete them!
 
 # Now let's check if the same trends follows in all of the runs 
 # RUN 2
-
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps2), (t2_complete[,2]/dft2[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 2) ")
-axis(1,at = 1:63, labels = steps2)
-
 
 ddf2 = data.frame(steps2, se2)
 plot(as.numeric(steps2), se2, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number in run 2")
 axis(1,at = 1:63, labels = steps2)
 lines(t2_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-       col=c("black", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
 # We observe the same declining trend here. Moreover 3.21 seems to be a section that has more engagement
 #Also the engagement for 1.19 seems to be a bit higher. We note here that 1.19 is a video, so again we 
 # have some evidence that the videos may have more engagement. Finally, for this particular run, the test
 # seems to have an extremelly low engagement, which is expected since this course had the lower number
 # of completion. So this low completion might no mean that the participants failed the test, but most 
-#probably it means that the did not even engage with the test. 
+#probably it means that the did not even engage with the test. Also we observe the same pattern for the quizes
 
 # RUN 3
-
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps3), (t3_complete[,2]/dft3[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 3) ")
-axis(1,at = 1:62, labels = steps3)
-
 
 plot(as.numeric(steps3), se3, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 3)")
 axis(1,at = 1:62, labels = steps3)
 lines(t3_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-       col=c("black", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
 # Again we observe a declining trend, with the same outliers. Here we dont have the glossary. However, 
-# this could be a section to keep in. Here engagement follows completion
+# this could be a section to keep in. Here engagement follows completion, and same trend for quizes
 
 # RUN 4
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps4), (t4_complete[,2]/dft4[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 4) ")
-axis(1,at = 1:62, labels = steps4)
-
-
 plot(as.numeric(steps4), se4, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 4)")
 axis(1,at = 1:62, labels = steps4)
 lines(t4_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-       col=c("black", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
-# Again we observe a declining trend, with the same outliers 
-
+# Again we observe a declining trend, with the same outliers. Here there is a lag between engagement and completion
+# for 3.3 which is a poll. Alsa same pattern for quizes (1.8, 2.8, 3.11)
 # RUN 5 
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps5), (t5_complete[,2]/dft5[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 5) ")
-axis(1,at = 1:62, labels = steps5)
-
-
 plot(as.numeric(steps5), se5, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 5)")
 axis(1,at = 1:62, labels = steps5)
 lines(t5_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-       col=c("black", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
-
-# Again we observe the same declining trend. Again we have the same outliers, but here for steps
+# Again we observe the same declining trend. Again we have the same outliers with quizes , but here for steps
 #starting in week 2 we see a stabilisation in engagement compared to steps in week 3
 
 # RUN 6
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps6), (t6_complete[,2]/dft6[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 6) ")
-axis(1,at = 1:62, labels = steps6)
-
-
 plot(as.numeric(steps6), se6, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 6)")
 axis(1,at = 1:62, labels = steps6)
 lines(t6_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-       col=c("black", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
-# Again soe declining trend. However here for step 1.03 we see a big different in starting engagement
-# and completion 
+# Again see declining trend. However here for step 1.03 we see a big different in starting engagement
+# and completion. This section was an exercise (THE ONLY RUN TO SEE THAT). Also we have the same trend fro quizes
 
 # RUN 7 
-par(mfrow = c(1, 2))
-
-plot(as.numeric(steps7), (t7_complete[,2]/dft7[,2])*100, type = "l", xaxt = "n", 
-     ylab = "Percentage of people who completed each step", xlab = "Step number", 
-     main = "Plot of percentage of people participating that complited each step (Run 7) ")
-axis(1,at = 1:62, labels = steps7)
-
-
 plot(as.numeric(steps7), se4, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Plot of step activity against step number (Run 7)")
 axis(1,at = 1:62, labels = steps7)
 lines(t7_complete[,2], col = "red", lty = 2)
-legend("topright", legend=c("Participated", "Completed"),
-       col=c("black", "red"), lty=1:2, cex=0.8)
-
+legend("topleft", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
 
 #Again we observe the same declining trend. However this run is the one with the biggest difference in
 # engagement and completion
@@ -290,10 +264,11 @@ complete_step_act
 # We observe that the step activity completion  for run 1 is the highest. This can be explained by the fact
 # that the enrollments for this run were the highest. However, when compared to the other 6 runs
 # we observe that the engagement declines much faster (the slope is steeper) for this run. 
-# Also we observe that 6,7 have the lowest engagement. This is also expected since these were the
+# Also we observe that 6,7 have the lowest completion. This is also expected since these were the
 # runs that had the lowest number of enrollments. 
+
 # Now it would be interesting to see what happens with run 4 since it was the run which had similar
-# enrolments number to these of run 3 and 5, but considerably higher completion rate. We observe 
+# enrolments number to that of run  5, but considerably higher completion rate. We observe 
 # that run 4 had very similar engagement rate to that of run 5. So this would be an interesting
 # area to investigate further. ( We can have a look at the video stats !!!!!!!!!!!!!!!!!!!)
 
@@ -309,7 +284,8 @@ complete_step_act
 # popular. Also for runs 2-7 we observe a sharp decrease in one point, which is the point representing
 # the test. This is expected as the completion rate for these run was much lower. However, from
 # the graph before we saw that the completion for run 4 was much higher when compared to runs 3-7
-# but here the engagement on the steps is very similar. 
+# but here the engagement on the steps is very similar. Also step completion for 6 and 7 was quite similar,
+# but course completion was higher for run 7. 
 
 # From the plots before we saw that the numebr of enrollments for 3 and 5 did not differ much, 
 # however the completion rate was higher for run 3. From the all activity plot however we see that
@@ -317,32 +293,50 @@ complete_step_act
 # look at
 
 # First let's look at the demographics for these specific groups.
-tt3 = table(cyber.security.3_enrolments$gender)
-gender_percent_3 = round(tt3*100/nrow(cyber.security.3_enrolments),2)
+tt4 = table(cyber.security.4_enrolments$gender)
+gender_percent_4 = round(tt4*100/nrow(cyber.security.4_enrolments),2)
 
 tt5 = table(cyber.security.5_enrolments$gender)
 gender_percent_5 = round(tt5*100/nrow(cyber.security.5_enrolments),2)
 
 par(mfrow = c(1, 2))
-barplot(gender_percent_3, ylab = "%", main = "Run 3")
-barplot(gender_percent_5, ylab = "%", main = "Run 5")
-# When it comes to gender we do not really observe any differences 
-ttt3 = table(cyber.security.3_enrolments$age_range)
-age_percent_3 = round(ttt3*100/nrow(cyber.security.3_enrolments),2)
+barplot(gender_percent_4, ylab = "%", main = "Run 4", col = "darkseagreen2")
+barplot(gender_percent_5, ylab = "%", main = "Run 5", col = "salmon")
+# When it comes to gender we observe that for run 4 we had more males engaging (and more males completing),
+#while for run 5 we did't really have a difference
+
+# Now let's compare runs 6 and 7 
+tt6 = table(cyber.security.6_enrolments$gender)
+gender_percent_6 = round(tt6*100/nrow(cyber.security.6_enrolments),2)
+
+tt7 = table(cyber.security.7_enrolments$gender)
+gender_percent_7 = round(tt7*100/nrow(cyber.security.7_enrolments),2)
+
+par(mfrow = c(1, 2))
+barplot(gender_percent_6, ylab = "%", main = "Run 6", col = "violet")
+barplot(gender_percent_7, ylab = "%", main = "Run 7", col = "yellow")
+
+#Again for run 6 which had the same step engagement but more participants, we see that there were more woman,
+# than men participating, while in run 7 we saw the opposite
+
+
+ttt4 = table(cyber.security.4_enrolments$age_range)
+age_percent_4 = round(ttt4*100/nrow(cyber.security.4_enrolments),2)
 
 ttt5 = table(cyber.security.5_enrolments$age_range)
 age_percent_5 = round(ttt5*100/nrow(cyber.security.5_enrolments),2)
 
-barplot(age_percent_3, ylab = "%", main = "Run 3", col = "olivedrab4")
+barplot(age_percent_4, ylab = "%", main = "Run 4", col = "olivedrab4")
 barplot(age_percent_5, ylab = "%", main = "Run 5", col = "deepskyblue3")
+
 # Here we observe something interesting. We see that in run 5 we have more people in the age 
-# ranges of 56-65 and >65, compared to run 3 that has more people in the age group 18-25 and 
+# ranges of 56-65 and >65, compared to run 4 that has more people in the age group 18-25 and 
 # 26- 35. So that could be an indication that these age groups are more interested in the course.
 # However it should be noted that the age range sample is quite small, so our conclusions 
 # may not be representative of the data set. 
 
-# Now for runs 3-7 we have some video stats that would be interesting to look, and we could 
-# also compare the ones for run 3 and 5: 
+# Now for runs 3-7 we have some video stats that would be interesting to look. We will exclude run 3, since 
+# it does not differ much from 4_7 and is also older:
 
 # FIRST LOAD THE DATA 
 
@@ -350,64 +344,6 @@ barplot(age_percent_5, ylab = "%", main = "Run 5", col = "deepskyblue3")
 # Mporo na kano plot apo ta video gia na do se pia video upirxe consistency sti parakolouthisi
 # oste na boithisei thn etairia na dei pia video kratane to endiaferon
 
-# RUN 3
-# Lets see the engagement for all the videos in run 3
-install.packages("gridExtra")
-require(gridExtra)
-
-p1_run3 = ggplot(ndf3_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
-  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 1)") 
-
-p2_run3 = ggplot(ndf3_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
-  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 2)") 
-
-p3_run3 = ggplot(ndf3_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
-  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 3 (Week 3)") 
-
-
-# Here lets see which videos had the biggest turnover
-video_eng = cyber.security.3_video.stats$viewed_five_percent - cyber.security.3_video.stats$viewed_ninetyfive_percent
-d3f = data.frame(step = cyber.security.3_video.stats$step_position , left = video_eng)  
-d3f
-d3f_plot = ggplot(d3f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 3)") + ylim(0,27)
-
-grid.arrange(p1_run3, p2_run3, p3_run3,d3f_plot,nrow = 2, ncol=2)
-
-
-# By looking at the plot we see that all video have a very large decline from 95% to 100%.
-# So it is better to draw conclusions by looking up to 95%
-# In general for week 1 we observe the most decline in engagement for video 1.5
-# For week 2 we observe a steep decline for videos 2.4 and 2.11 and fro week 3 in general we observe quite a 
-# constant engagement in the videos, with video 3.14 being the one where more people left 
-#However remember from the previous plots that the engagement in the steps
-# during week 3 was lower, so probably the people that have stayed through week 3 are interested in the course
-video_duration_3 = data.frame(step_position = cyber.security.3_video.stats$step_position,
-                              duration = cyber.security.3_video.stats$video_duration)
-video_duration_3
-
-# From the graph we observe that when people watch up to 95% of the video then there is a 
-# sudden decline in engagement (probably people just don't watch the final minutes)
-# (the course developers should look not to include important things on the last minutes)
-# So we can take a better look at the engagement up to 95%. 
-
-plot(cyber.security.3_video.stats$viewed_ninetyfive_percent, cyber.security.3_video.stats$video_duration,
-     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
-     main = "Plot of video duration vs engagement (Run 3")
-abline(lm(cyber.security.3_video.stats$video_duration ~ cyber.security.3_video.stats$viewed_ninetyfive_percent),
-       lty = 2 , col = "red")
-
-cor(cyber.security.3_video.stats$viewed_ninetyfive_percent, cyber.security.3_video.stats$video_duration)
-
-# We observe that there is a strong negative correlation (-0.8068828) between engagement and duration. 
-# So in general when the duration is higher, less people tend to watch 95% of the videos. 
-
-# From the plot above we see that in general the longer the videos the less the 100% engagement
-# From the table, we observe that the videos which had the highest decline in engagement are 
-# indeed the ones that are some with longer in duration. So the developers of the course might want to
-# create shorter videos
-
-# Now let's look if that happens in the other runs. And then we can also focus on runs 3 and 5. 
 
 # RUN 4 
 p1_run4 = ggplot(ndf4_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
@@ -428,15 +364,22 @@ d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) 
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
 
 grid.arrange(p1_run4, p2_run4, p3_run4,d4f_plot, nrow = 2, ncol=2)
-
-
-# Here we observe again a similar declining pattern in engagement. For week 1 we observe the 
-# highest decline in 1.5 before. For week two again we observe the biggest drop in engagement for videos  
-# 2.11 and 2.4. For week 3 engagement seems pretty constant like before . 
+# By looking at the plot we see that all video have a very large decline from 95% to 100%.
+# So it is better to draw conclusions by looking up to 95%
+# In general for week 1 we observe the most decline in engagement for video 1.5
+# For week 2 we observe a steep decline for videos 2.4 and 2.11 and fro week 3 in general we observe quite a 
+# constant engagement in the videos, with video 3.14 being the one where more people left 
+#However remember from the previous plots that the engagement in the steps
+# during week 3 was lower, so probably the people that have stayed through week 3 are interested in the course
 
 video_duration_4 = data.frame(step_position = cyber.security.4_video.stats$step_position,
                               duration = cyber.security.4_video.stats$video_duration)
 video_duration_4
+
+# From the graph we observe that when people watch up to 95% of the video then there is a 
+# sudden decline in engagement (probably people just don't watch the final minutes)
+# (the course developers should look not to include important things on the last minutes)
+# So we can take a better look at the engagement up to 95%. 
 
 # Now let's look if there is a relationship between duration and engagement here as well
 
@@ -449,6 +392,10 @@ abline(lm(cyber.security.4_video.stats$video_duration ~ cyber.security.4_video.s
 cor(cyber.security.4_video.stats$viewed_ninetyfive_percent, cyber.security.4_video.stats$video_duration)
 
 # Here we see again a very strong negative correlation between engagement and duration (-0.817063)
+# From the plot above we see that in general the longer the videos the less the 100% engagement
+# From the table, we observe that the videos which had the highest decline in engagement are 
+# indeed the ones that are some with longer in duration. So the developers of the course might want to
+# create shorter videos
 
 # RUN 5 
 p1_run5 = ggplot(ndf5_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
@@ -545,7 +492,7 @@ cor(cyber.security.7_video.stats$viewed_ninetyfive_percent, cyber.security.7_vid
 # Again very strong negative correlation (-0.8331848)
 
 
-grid.arrange(d3f_plot, d4f_plot, d5f_plot, d6f_plot, d7f_plot)
+grid.arrange(d4f_plot, d5f_plot, d6f_plot, d7f_plot)
 
 # we observe that for all runs video 1.5 (281) has the largest dropout rate among all videos in week 1 and 
 # all videos in general. Then for week 2 video 2.11 has the largest dropout (312) and for week 3
@@ -555,4 +502,9 @@ grid.arrange(d3f_plot, d4f_plot, d5f_plot, d6f_plot, d7f_plot)
 # Also what is quite interesting is that video 2.4 has the longest duration, but it is not the one
 # with the highest dropout. On the other hand other videos seem to have higher dropout even if they are
 # Shorter. So this may be an area that people find interesting. 
+
+
+
+
+
 
