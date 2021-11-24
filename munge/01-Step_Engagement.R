@@ -1,47 +1,33 @@
 # Example preprocessing script.
 # Change the step numbering in order to have the correct format and outcome 
-cyber_security_1_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-1_step-activity.csv")
-head(cyber_security_1_step_activity)
-new_step_1 = (cyber_security_1_step_activity$week_number)*100 + cyber_security_1_step_activity$step_number
-cyber_security_1_step_activity_1 = cbind(cyber_security_1_step_activity, new_step_1)
-view(cyber_security_1_step_activity_1)
+new_step_1 = (cyber.security.1_step.activity$week_number)*100 + cyber.security.1_step.activity$step_number
+cyber.security.1_step.activity_1 = cbind(cyber.security.1_step.activity, new_step_1)
+view(cyber.security.1_step.activity_1)
 
 # Do the same thing for each run 
 # RUN 2
-cyber_security_2_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-2_step-activity.csv")
-head(cyber_security_2_step_activity)
-new_step_2 = (cyber_security_2_step_activity$week_number)*100 + cyber_security_2_step_activity$step_number
-cyber_security_2_step_activity_2 = cbind(cyber_security_2_step_activity, new_step_2)
+new_step_2 = (cyber.security.2_step.activity$week_number)*100 + cyber.security.2_step.activity$step_number
+cyber.security.2_step.activity_2 = cbind(cyber.security.2_step.activity, new_step_2) 
 
 # RUN 3
-cyber_security_3_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-3_step-activity.csv")
-head(cyber_security_3_step_activity)
-new_step_3 = (cyber_security_3_step_activity$week_number)*100 + cyber_security_3_step_activity$step_number
-cyber_security_3_step_activity_3 = cbind(cyber_security_3_step_activity, new_step_3)
+new_step_3 = (cyber.security.3_step.activity$week_number)*100 + cyber.security.3_step.activity$step_number
+cyber.security.3_step.activity_3 = cbind(cyber.security.3_step.activity, new_step_3)
 
 #RUN 4 
-cyber_security_4_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-4_step-activity.csv")
-head(cyber_security_4_step_activity)
-new_step_4 = (cyber_security_4_step_activity$week_number)*100 + cyber_security_4_step_activity$step_number
-cyber_security_4_step_activity_4 = cbind(cyber_security_4_step_activity, new_step_4)
+new_step_4 = (cyber.security.4_step.activity$week_number)*100 + cyber.security.4_step.activity$step_number
+cyber.security.4_step.activity_4 = cbind(cyber.security.4_step.activity, new_step_4)
 
 #RUN 5
-cyber_security_5_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-5_step-activity.csv")
-head(cyber_security_5_step_activity)
-new_step_5 = (cyber_security_5_step_activity$week_number)*100 + cyber_security_5_step_activity$step_number
-cyber_security_5_step_activity_5 = cbind(cyber_security_5_step_activity, new_step_5)
+new_step_5 = (cyber.security.5_step.activity$week_number)*100 + cyber.security.5_step.activity$step_number
+cyber.security.5_step.activity_5 = cbind(cyber.security.5_step.activity, new_step_5)
 
 #RUN 6
-cyber_security_6_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-6_step-activity.csv")
-head(cyber_security_6_step_activity)
-new_step_6 = (cyber_security_6_step_activity$week_number)*100 + cyber_security_6_step_activity$step_number
-cyber_security_6_step_activity_6 = cbind(cyber_security_6_step_activity, new_step_6)
+new_step_6 = (cyber.security.6_step.activity$week_number)*100 + cyber.security.6_step.activity$step_number
+cyber.security.6_step.activity_6 = cbind(cyber.security.6_step.activity, new_step_6)
 
 # RUN 7
-cyber_security_7_step_activity <- read_csv("data/FutureLearn MOOC Dataset (1)/cyber-security-7_step-activity.csv")
-head(cyber_security_7_step_activity)
-new_step_7 = (cyber_security_7_step_activity$week_number)*100 + cyber_security_7_step_activity$step_number
-cyber_security_7_step_activity_7 = cbind(cyber_security_7_step_activity, new_step_7)
+new_step_7 = (cyber.security.7_step.activity$week_number)*100 + cyber.security.7_step.activity$step_number
+cyber.security.7_step.activity_7 = cbind(cyber.security.7_step.activity, new_step_7)
 
 
 
