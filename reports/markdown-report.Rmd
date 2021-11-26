@@ -1,0 +1,366 @@
+---
+title: "CSC8631 Report"
+output: pdf_document
+fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir= normalizePath('..'))
+```
+
+```{r ProjectTemplate, include=FALSE}
+library(ProjectTemplate)
+setwd("/Volumes/KINGSTON/Data Management and EDA project")
+load.project()
+```
+## Introduction and business understanding 
+This project includes data from an online course provided by Newcastle University on cyber security. These data were collected over seven different runs of the course, with the first run starting on 5th of September 2016, and the seventh run on 10th of September 2018. The course is divided in three sections, with each section having specific steps that the students can engage in. These steps include videos, articles, quizzes, exercises and discussions were students can participate. Then at the end of the third section there is a test, which students can complete in order to test their understanding. In general all runs have the same steps, with runs 1 and 2 having some additional ones. Runs 3-7 have the exact same sections.
+The data collected from the seven runs, include enrollment numbers, demographics of enrolled people, video statistics, responses on quizzes and test as well as other information. 
+The aim of this project is to analyse the data and extracting interesting insights that will be helpful for the course developers to understand better what works and what does not. This report will focus mainly on participants engagement and will give insights into what affects engagement. This analysis will aim into providing the course developers, with suggestions on which age group, or gender might be more interested in the course, which sections are more popular and what sections might need to be removed or adjusted, due to low engagement. 
+
+## Data Understanding and Preparation
+
+### CRISP DM cycle 1 
+
+As mentioned before there are different data sets for each run. In general for all the runs most data sets are common. For examples for all runs there data sets that include information on the enrollments, data sets about step activity, question responses as well as survey responses. For runs 3-7 there is also an additional data set that includes statistics about the videos. For this analysis the main data sets used are the enrollments, step activity, and video statistics data set. Here it should be noted that some of these data sets contain unknown row entries. These unknown entries will not be removed from the data set, since by removing them, some conclusions reached may not be representative of the data. However, for some analysis these unknown or empty rows will be removed. So after having mentioned the above information, one of the first things to look at is the number of people involved in each run, the number of people that completed the course. In order to generate the plots below all the seven enrollments data sets were used: 
+
+```{r enrolments plots, echo=FALSE, out.width = "100%", fig.width=7,fig.height=4.5}
+
+nr1 = nrow(cyber.security.1_enrolments)
+nr2 = nrow(cyber.security.2_enrolments)
+nr3 = nrow(cyber.security.3_enrolments)
+nr4 = nrow(cyber.security.4_enrolments)
+nr5 = nrow(cyber.security.5_enrolments)
+nr6 = nrow(cyber.security.6_enrolments)
+nr7 = nrow(cyber.security.7_enrolments)
+number_of_enrollments = c(nr1,nr2,nr3,nr4,nr5,nr6,nr7)
+fp1 = cyber.security.1_enrolments$fully_participated_at[cyber.security.1_enrolments$fully_participated_at != ""]
+successful_run1 = (length(fp1)/nr1) *100
+fp2 = cyber.security.2_enrolments$fully_participated_at[cyber.security.2_enrolments$fully_participated_at != ""]
+successful_run2 = (length(fp2)/nr2) *100
+fp3 = cyber.security.3_enrolments$fully_participated_at[cyber.security.3_enrolments$fully_participated_at != ""]
+successful_run3 = (length(fp3)/nr3)*100
+fp4 = cyber.security.4_enrolments$fully_participated_at[cyber.security.4_enrolments$fully_participated_at != ""]
+successful_run4 = (length(fp4)/ nr4)*100
+fp5 = cyber.security.5_enrolments$fully_participated_at[cyber.security.5_enrolments$fully_participated_at != ""]
+successful_run5 = (length(fp5)/ nr5)*100
+fp6 = cyber.security.6_enrolments$fully_participated_at[cyber.security.6_enrolments$fully_participated_at != ""]
+successful_run6 = (length(fp6)/ nr6) *100
+fp7 = cyber.security.7_enrolments$fully_participated_at[cyber.security.7_enrolments$fully_participated_at != ""]
+successful_run7 = (length(fp7)/ nr7) *100
+number_of_sucessfull_completions = c(successful_run1, successful_run2, successful_run3,
+                                     successful_run4, successful_run5, successful_run6,
+                                     successful_run7)
+par(mfrow = c(1, 2))
+plot(number_of_enrollments, xlab = "Run number", ylab = "Number of enrollments", type = "b",
+     main = "Plot of enrollments numbers over each run", cex.main = 0.7)
+plot(number_of_sucessfull_completions, xlab = "Run number", ylab = "% of people who fully participated",
+     type = "b", main = "Plot of % of people who completed the course", cex.main = 0.7)
+
+```
+
+From the right plot it is clear that run 1 and 2 were the ones with the higher number of participants. Runs 3-7 seem to have a similar number of participants, with run 7 having the lowest number. In general after run 4, there is a steady decline in the number of participants. On the other hand, looking at the right plot, a different trend is observed. Run 1 has the higher completion rate, but run 2 seems to have the lowest even though it had a relatively high number of participants. Moreover for runs 5-7 even though there was a declining trend in enrollments there is an increasing trend for completion. So, event though run 7 is the one with the lowest enrollments, it has higher completion rate from runs 2,3,5 and 6. In addition run 4 seems to have a higher completion rate than expected, since it is much higher than that of run 5, even though the number of participants was similar. 
+Since runs 4-7 have quite similar numbers of enrollments and are also the most recent ones, when compared to runs 1-3 it would be interesting to investigate what could drive this difference in completion.
+Two interesting areas to look at are gender and age. So the questions below arise: 
+
+* Does gender affects initial engagement and completion of the course? 
+* Does age affects initial engagement and completion of the course? 
+
+To get an idea of how the gender differs across the hour runs the following bar plots are generated. These bar plots include data for all people that participated and not just the ones that completed the course: 
+
+``` {r barplots gender all participants, fig.width = 9, fig.height = 3, fig.cap = "Gender statistics for people enrolled in runs 4-7" , echo = FALSE}
+
+par(mfrow = c(1, 2))
+barplot((table(cyber.security.4_enrolments$gender)/nr4)*100, main = "Run 4", ylab = "%", col = "darkseagreen 2")
+barplot((table(cyber.security.5_enrolments$gender)/nr5)*100, main = "Run 5",ylab = "%", col = "salmon")
+barplot((table(cyber.security.6_enrolments$gender)/nr6)*100, main = "Run 6", ylab = "%",col = "violet")
+barplot((table(cyber.security.7_enrolments$gender)/nr7)*100, main = "Run 6", ylab = "%",col = "yellow")
+```
+
+In general for all four runs, most people's gender is unknown. This is not ideal as the conclusions made are just from a sample of the population and not the whole population. So the conclusions may not be representative of the population.  However, for run 4 which had the highest completion rate there seems to be more male participants compared to female. For the other runs there is approximately the same percentage numbers of males and females, with run 6 being the only run among these four runs, with more females.So there does not seem to be any significant difference in gender for the people who took part, in the different runs. 
+However it would be interesting to also investigate whether there were differences in gender among the people that completed the course. The results are shown below: 
+
+``` {r barplots gender completed , fig.width = 9, fig.height = 3, fig.cap = "Gender statistics for people enrolled in runs 4-7" , echo = FALSE}
+par(mfrow = c(1, 2))
+df4 = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df4_gender = df4[apply(df4 != "", 1, all),]
+barplot((table(df4_gender$gender)/nrow(df4_gender))*100, main = "Run 4", xlab = "Gender", ylab = "%", col = "darkseagreen2")
+
+df5 = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df5_gender = df5[apply(df5 != "", 1, all),]
+barplot((table(df5_gender$gender)/nrow(df5_gender))*100, main = "Run 5", xlab = "Gender", ylab = "%", col = "salmon")
+
+df1_6 = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df6_gender = df1_6[apply(df1_6 != "", 1, all),]
+barplot((table(df6_gender$gender)/nrow(df6_gender))*100,  ylim = c(0,200), main = "Run 6", xlab = "Gender", ylab = "%", col = "violet")
+
+df1_7 = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "gender")]
+df7_gender = df1_7[apply(df1_7 != "", 1, all),]
+barplot((table(df7_gender$gender)/nrow(df7_gender))*100, ylim = c(0,200), main = "Run 7", xlab = "Gender", ylab = "%", col = "yellow")
+```
+
+In run 4, 6 and 7 , of those who registered their gender there were more males compared to females that completed the course. However the data is not sufficient since more than 80% of the people that completed the course had not registered their gender. Especially for run 4 and 7 which have the highest completion rate among the 4, this pattern is more visible. In run 5 again this pattern is also present. However in this run only 22 people had completed the course, only from those people only 2 had registered their gender. In general there is some evidence that in the runs with higher completion there were more males who completed the course even though there was not such an obvious difference in the number of males and females that enrolled. This means that for some reason female participants tend to stop engaging with the course at some point, and maybe the target goup of the course developers if they are trying to imporove completion would be males. However since there are many unknown entries in all runs the fact gender may be affecting completion is just an assumption. 
+
+Other than gender, the age range would also be an interesting factor to look at. So one more question of whether there is a difference in age ranges between more and less successful runs arises. The plots below show the age ranges for the people who enrolled in each course: 
+
+```{r barplots age range all participants, echo=FALSE, fig.width = 15, fig.height = 5, size= 5}
+par(mfrow = c(1, 2))
+barplot((table(cyber.security.4_enrolments$age_range)/nr4)*100, main = "Run 4", col = "darkseagreen 2")
+barplot((table(cyber.security.5_enrolments$age_range)/nr5)*100, main = "Run 5", col = "salmon")
+barplot((table(cyber.security.6_enrolments$age_range)/nr6)*100, main = "Run 6", col = "violet")
+barplot((table(cyber.security.7_enrolments$age_range)/nr7)*100, main = "Run 6", col = "yellow")
+```
+
+Again most age ranges of the people that enrolled are unknown so just like before the conclusions reached are just an assumption and may not be representative of the truth. Looking at the plots however, there is an interesting finding. It seems like run in 5, which is the run with the lowest completion rate, the majority of registered age ranges, lies in the 46-55, 56-65 and >65 age ranges, while in all the other runs there seem to be more people in the 18-25 and 26-35 age ranges. So there seems to be some evidence that younger people tend to engage more with the course, compared to older people. Moreover it would be interesting to look at the age ranges of people who completed the course in these runs. The results are summarised in the plots below: 
+
+```{r barplots age range complete participants, echo=FALSE, fig.width = 15, fig.height = 5, size= 5}
+par(mfrow = c(1, 2))
+df4_age = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df4_age_all = df4_age[apply(df4_age != "", 1, all),]
+barplot((table(df4_age_all$age_range)/nrow(df4_age_all))*100, col = "darkseagreen2", main = "Run 4", ylab = "%")
+
+df5_age = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df5_age_all = df5_age[apply(df5_age != "", 1, all),]
+barplot((table(df5_age_all$age_range)/nrow(df5_age_all))*100, col = "salmon", main = "Run 5", ylab = "%")
+
+df6_age = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df6_age_all = df6_age[apply(df6_age != "", 1, all),]
+barplot((table(df6_age_all$age_range)/nrow(df6_age_all))*100, col = "violet", main = "Run 6", ylab = "%")
+
+df7_age = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
+df7_age_all = df7_age[apply(df7_age != "", 1, all),]
+barplot((table(df7_age_all$age_range)/nrow(df7_age_all))*100, col = "yellow", main = "Run 7", ylab = "%")
+```
+
+For both run 6 and 7 it seems that completion rate was the highest among people that are 26-35 years old. Moreover in all runs, except run 5, it seems that completion rate is also higher among people who are 36-45. People who are 18-25, don't seem to have very high completion rates. Moreover, what is very interesting is that in runs 6 and 7, among the people who completed the course and registered their age, all of them are below 45 years old. So this could be again an evidence that in general younger people between 26 and 45 years old seem to be the ones most interested in the course. 
+As stated above, both in gender and age range data, there are many missing values that may make the analysis inaccurate. This may be the end of the first CRISP DM cycle since there are not any more data that could help investigate further whether age and gender affect engagement. 
+
+Since there are not any more insights to be extracted about age and gender, regarding engagement, the next thing to look at is step activity. The data sets for step activity include the step number (each section of the course), and there is an entry for each participant who engaged in this step. Looking at the step activity could help answer some questions that involve engagement. For example: 
+
+* How does engagement varies over the weeks?
+* Are there any particular steps that participants find more/less interesting?
+* If yes, is there any difference between these steps and the others? 
+
+The plots below, show how engagement of all participants, and participants who completed the steps, varies among the 7 runs: 
+
+```{r plot engagement over 7 runs, fig.width = 17, fig.height = 6.5, echo=FALSE}
+par(mfrow = c(1, 2))
+
+ddf1 = data.frame(steps1, se1)
+plot(as.numeric(steps1), se1, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Run 1")
+axis(1,at = 1:60, labels = steps1)
+lines(t1_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+ddf2 = data.frame(steps2, se2)
+plot(as.numeric(steps2), se2, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = " Run 2")
+axis(1,at = 1:63, labels = steps2)
+lines(t2_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+plot(as.numeric(steps3), se3, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Run 3")
+axis(1,at = 1:62, labels = steps3)
+lines(t3_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+plot(as.numeric(steps4), se4, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Run 4")
+axis(1,at = 1:62, labels = steps4)
+lines(t4_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+plot(as.numeric(steps5), se5, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Run 5")
+axis(1,at = 1:62, labels = steps5)
+lines(t5_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+plot(as.numeric(steps6), se6, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Run 6")
+axis(1,at = 1:62, labels = steps6)
+lines(t6_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+plot(as.numeric(steps7), se4, type = "l", xaxt = "n", xlab = "Step number", 
+     ylab = "People engaging in each step", main = "Run 7")
+axis(1,at = 1:62, labels = steps7)
+lines(t7_complete[,2], col = "red", lty = 2)
+legend("topright", legend=c("Participated", "Completed"),
+       col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+```
+
+In general we observe a declining trend in engagement, both for people who started the steps and the ones that completed them. For all runs except run 1, there seems to be a stabilization in engagement from the begging of week 2. In run 1, there is a more steep decline through out all of weeks. Moreover, for all runs there is quite a difference in engagement and completion of the first step, so it seems that there is a proportion of participants, that stop engaging after the first step. After the first step,  all runs except run 7 there is not much difference between people who started the steps and people who finished them. So this means that in general participants who started the steps seemed to find them interesting throughout. However, there are some peaks and also some points were engagements between starting and finishing the step differs.
+It is important to identify these points as this could give an insight to the steps that participants engage more/less. The steps identified are: 
+
+* Step 1.8 in all runs (Quiz)
+* Step 2.8 in all runs (Quiz)
+* Step 3.11 in all runs (Quiz)
+* Step 3.18 in all runs (Test)
+* Step 3.21 in runs 1 & 2 (Glossary and references)
+
+The results are very interesting. It seems like parts of the course where participants have to complete actions, rather than just watching a video, or reading an articles, have lower completion, and it seems like people are starting those section, but are not completing them. However looking closer at the course structure, it seems that step 2.20 is also a quiz. However engagement for this quiz (step) does not seem to deviate much from completion of the step. So why is this happening?
+Looking more closely at the quizzes and the test, the following are found: 
+
+``` {r quiz and test steps, fig.width = 5, fig.height = 5, echo = FALSE}
+df_quiz_step = data.frame(Quiz_and_test = c(1.8, 2.8, 2.20, 3.11, 3.18),step_number = c(6,3,1,3,9))
+knitr::kable(df_quiz_step, "simple")
+```
+So it is observed that quiz number 2.20 only has one question, while the test has 9 questions and the other quizzes have 3 and 6 question. So the following question arises: 
+
+* Is it posible that engagement on the quizzes and the test is affected by the number of questions? 
+
+In order to investigate that the following plot is produced: 
+
+``` {r cor plots for quiz and engagement, fig.width = 13, fig.height = 6.5, echo = FALSE}
+par(mfrow = c(2, 3))
+
+df_quiz_step = data.frame(Quiz_and_test = c(1.8, 2.8, 2.20, 3.11, 3.18),step_number = c(6,3,1,3,9))
+# Find the percentage of people that engagged in quizes and test but did not complete 
+dft1 = as.data.frame(t1)
+dft1comp = as.data.frame(t1_complete)
+quiz_1.8_1_left = ((dft1[8,2] - dft1comp[8,2])/dft1[8,2])*100
+
+quiz_2.8_1_left = ((dft1[26,2] - dft1comp[26,2])/dft1[26,2])*100
+
+quiz_2.20_1_left = ((dft1[38,2] - dft1comp[38,2])/dft1[38,2])*100
+
+quiz_3.11_1_left = ((dft1[50,2] - dft1comp[50,2])/dft1[50,2])*100
+
+test_1_left = ((dft1[57,2] - dft1comp[57,2])/dft1[57,2])*100
+
+question_length_1 = c(6,3,1,3,9)
+people_left_1 = c(quiz_1.8_1_left,quiz_2.8_1_left ,quiz_2.20_1_left, quiz_3.11_1_left, test_1_left)
+plot(as.numeric(question_length_1), people_left_1, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 1")
+abline(lm(people_left_1~question_length_1), col = "red", lty = 2)
+text(2, 17, expression(r == 0.9808962))
+
+# RUN 2 
+dft2 = as.data.frame(t2)
+dft2comp = as.data.frame(t2_complete)
+quiz_1.8_2_left = ((dft2[8,2] - dft2comp[8,2])/dft2[8,2])*100
+
+quiz_2.8_2_left = ((dft2[27,2] - dft2comp[27,2])/dft2[27,2])*100
+
+quiz_2.20_2_left = ((dft2[39,2] - dft2comp[39,2])/dft2[39,2])*100
+
+quiz_3.11_2_left = ((dft2[53,2] - dft2comp[53,2])/dft2[53,2])*100
+
+test_2_left = ((dft2[60,2] - dft2comp[60,2])/dft2[60,2])*100
+
+question_length_2 = c(6,3,1,3,9)
+people_left_2 = c(quiz_1.8_2_left,quiz_2.8_2_left ,quiz_2.20_2_left, quiz_3.11_2_left, test_2_left)
+plot(as.numeric(question_length_2), people_left_2, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 2")
+abline(lm(people_left_2~question_length_2), col = "red", lty = 2)
+text(2, 11.5, expression(r == 0.09521637))
+
+# RUN 3
+dft3 = as.data.frame(t3)
+dft3comp = as.data.frame(t3_complete)
+quiz_1.8_3_left = ((dft3[8,2] - dft3comp[8,2])/dft3[8,2])*100
+
+quiz_2.8_3_left = ((dft3[27,2] - dft3comp[27,2])/dft3[27,2])*100
+
+quiz_2.20_3_left = ((dft3[39,2] - dft3comp[39,2])/dft3[39,2])*100
+
+quiz_3.11_3_left = ((dft3[53,2] - dft3comp[53,2])/dft3[53,2])*100
+
+test_3_left = ((dft3[60,2] - dft3comp[60,2])/dft3[60,2])*100
+
+question_length_3 = c(6,3,1,3,9)
+people_left_3 = c(quiz_1.8_3_left,quiz_2.8_3_left ,quiz_2.20_3_left, quiz_3.11_3_left, test_3_left)
+plot(as.numeric(question_length_3), people_left_3, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 3")
+abline(lm(people_left_3~question_length_3), col = "red", lty = 2)
+text(2, 13.7, expression(r == 0.5491551))
+
+# RUN 4 
+dft4 = as.data.frame(t4)
+dft4comp = as.data.frame(t4_complete)
+quiz_1.8_4_left = ((dft4[8,2] - dft4comp[8,2])/dft4[8,2])*100
+
+quiz_2.8_4_left = ((dft4[27,2] - dft4comp[27,2])/dft4[27,2])*100
+
+quiz_2.20_4_left = ((dft4[39,2] - dft4comp[39,2])/dft4[39,2])*100
+
+quiz_3.11_4_left = ((dft4[53,2] - dft4comp[53,2])/dft4[53,2])*100
+
+test_4_left = ((dft4[60,2] - dft4comp[60,2])/dft4[60,2])*100
+
+question_length_4 = c(6,3,1,3,9)
+people_left_4 = c(quiz_1.8_4_left,quiz_2.8_4_left ,quiz_2.20_4_left, quiz_3.11_4_left, test_4_left)
+plot(as.numeric(question_length_4), people_left_4, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 4")
+abline(lm(people_left_4~question_length_4), col = "red", lty = 2)
+text(2, 15, expression(r == 0.5727359))
+
+# RUN 5 
+dft5 = as.data.frame(t5)
+dft5comp = as.data.frame(t5_complete)
+quiz_1.8_5_left = ((dft5[8,2] - dft5comp[8,2])/dft5[8,2])*100
+
+quiz_2.8_5_left = ((dft5[27,2] - dft5comp[27,2])/dft5[27,2])*100
+
+quiz_2.20_5_left = ((dft5[39,2] - dft5comp[39,2])/dft5[39,2])*100
+
+quiz_3.11_5_left = ((dft5[53,2] - dft5comp[53,2])/dft5[53,2])*100
+
+test_5_left = ((dft5[60,2] - dft5comp[60,2])/dft5[60,2])*100
+
+question_length_5 = c(6,3,1,3,9)
+people_left_5 = c(quiz_1.8_5_left,quiz_2.8_5_left ,quiz_2.20_5_left, quiz_3.11_5_left, test_5_left)
+dfqp1 = data.frame(question_length_5, people_left_5)
+plot(as.numeric(question_length_5), people_left_5, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 5")
+abline(lm(people_left_5~question_length_5), col = "red", lty = 2)
+text(2, 14, expression(r == 0.4587964))
+
+
+# RUN 6 
+dft6 = as.data.frame(t6)
+dft6comp = as.data.frame(t6_complete)
+quiz_1.8_6_left = ((dft6[8,2] - dft6comp[8,2])/dft6[8,2])*100
+
+quiz_2.8_6_left = ((dft6[27,2] - dft6comp[27,2])/dft6[27,2])*100
+
+quiz_2.20_6_left = ((dft6[39,2] - dft6comp[39,2])/dft6[39,2])*100
+
+quiz_3.11_6_left = ((dft6[53,2] - dft6comp[53,2])/dft6[53,2])*100
+
+test_6_left = ((dft6[60,2] - dft6comp[60,2])/dft6[60,2])*100
+
+question_length_6 = c(6,3,1,3,9)
+people_left_6 = c(quiz_1.8_6_left,quiz_2.8_6_left ,quiz_2.20_6_left, quiz_3.11_6_left, test_6_left)
+plot(as.numeric(question_length_6), people_left_6, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 6")
+abline(lm(people_left_6~question_length_6), col = "red", lty = 2)
+text(2, 18.7, expression(r == 0.8231372))
+
+# RUN 7 
+dft7 = as.data.frame(t7)
+dft7comp = as.data.frame(t7_complete)
+quiz_1.8_7_left = ((dft7[8,2] - dft7comp[8,2])/dft7[8,2])*100
+
+quiz_2.8_7_left = ((dft7[27,2] - dft7comp[27,2])/dft7[27,2])*100
+
+quiz_2.20_7_left = ((dft7[39,2] - dft7comp[39,2])/dft7[39,2])*100
+
+quiz_3.11_7_left = ((dft7[53,2] - dft7comp[53,2])/dft7[53,2])*100
+
+test_7_left = ((dft7[60,2] - dft7comp[60,2])/dft7[60,2])*100
+
+question_length_7 = c(6,3,1,3,9)
+people_left_7 = c(quiz_1.8_7_left,quiz_2.8_7_left ,quiz_2.20_7_left, quiz_3.11_7_left, test_7_left)
+plot(as.numeric(question_length_7), people_left_7, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 7")
+abline(lm(people_left_7~question_length_7), col = "red", lty = 2)
+text(2, 18, expression(r == 0.5011749))
+```
+
+Looking at the plots and the correlation coefficients for each run, it is clear that for all runs except run 2 there is a moderate to strong positive correlation between the percentage of people not completing the quizzes/test and the number of quiz/test question. So this means that in general the more questions a quiz or a test contains the more probable it is that the participant will not complete it. So, the course developers should consider creating shorter quizzes in order to boost engagement. 
+
