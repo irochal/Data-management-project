@@ -432,7 +432,6 @@ text(2, 18, expression(r == 0.5011749))
 
 
 
-
 # Now for runs 3-7 we have some video stats that would be interesting to look. We will exclude run 3, since 
 # it does not differ much from 4_7 and is also older:
 
@@ -461,7 +460,7 @@ d4f
 d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
 
-grid.arrange(p1_run4, p2_run4, p3_run4,d4f_plot, nrow = 2, ncol=2)
+grid.arrange(p1_run4, p2_run4, p3_run4, nrow = 1, ncol=3)
 # By looking at the plot we see that all video have a very large decline from 95% to 100%.
 # So it is better to draw conclusions by looking up to 95%
 # In general for week 1 we observe the most decline in engagement for video 1.5
@@ -511,7 +510,7 @@ d5f
 d5f_plot = ggplot(d5f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
 
-grid.arrange(p1_run5, p2_run5, p3_run5,d5f_plot,nrow = 2, ncol=2)
+grid.arrange(p1_run5, p2_run5, p3_run5,nrow = 3, ncol=3)
 
 # Again we observe very similar patterns as before. However in week 1, video 1.19 is more popular when compared
 # to the other weeks and in general for week 1 there is a decline in people leaving 
@@ -544,7 +543,7 @@ d6f
 d6f_plot = ggplot(d6f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
 
-grid.arrange(p1_run6, p2_run6, p3_run6,d6f_plot,nrow = 2, ncol=2)
+grid.arrange(p1_run6, p2_run6, p3_run6,nrow = 1, ncol=1)
 
 # Again we observe very similar patterns as before. However in week 1, video 1.19 is more popular when compared
 # to the other weeks and in general for week 1 there is a decline in people leaving ????
@@ -575,7 +574,7 @@ d7f
 d7f_plot = ggplot(d7f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
 
-grid.arrange(p1_run7, p2_run7, p3_run6,d7f_plot,nrow = 2, ncol=2)
+grid.arrange(p1_run7, p2_run7, p3_run6,nrow = 1, ncol=3)
 
 # Again we observe very similar patterns as before. However in week 1, video 1.17 has higher turnover,
 # when compared to the other runs
