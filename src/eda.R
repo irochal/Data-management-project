@@ -273,6 +273,166 @@ complete_step_act
 # the engagement for run 4 is lower than that of run 5, so that would be an interesting thing to
 # look at
 
+
+# Let's look if quiz length has an effect in engagement 
+# RUN 1
+install.packages("ggpubr")
+library(ggpubr)
+par(mfrow = c(2, 4))
+
+df_quiz_step = data.frame(Quiz_and_test = c(1.8, 2.8, 2.20, 3.11, 3.18),step_number = c(6,3,1,3,9))
+# Find the percentage of people that engagged in quizes and test but did not complete 
+dft1 = as.data.frame(t1)
+dft1comp = as.data.frame(t1_complete)
+quiz_1.8_1_left = ((dft1[8,2] - dft1comp[8,2])/dft1[8,2])*100
+
+quiz_2.8_1_left = ((dft1[26,2] - dft1comp[26,2])/dft1[26,2])*100
+
+quiz_2.20_1_left = ((dft1[38,2] - dft1comp[38,2])/dft1[38,2])*100
+
+quiz_3.11_1_left = ((dft1[50,2] - dft1comp[50,2])/dft1[50,2])*100
+
+test_1_left = ((dft1[57,2] - dft1comp[57,2])/dft1[57,2])*100
+
+question_length_1 = c(6,3,1,3,9)
+people_left_1 = c(quiz_1.8_1_left,quiz_2.8_1_left ,quiz_2.20_1_left, quiz_3.11_1_left, test_1_left)
+cor(as.numeric(question_length_1), people_left_1)
+plot(as.numeric(question_length_1), people_left_1, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 1")
+abline(lm(people_left_1~question_length_1), col = "red", lty = 2)
+text(2, 17, expression(r == 0.9808962))
+
+# RUN 2 
+dft2 = as.data.frame(t2)
+dft2comp = as.data.frame(t2_complete)
+quiz_1.8_2_left = ((dft2[8,2] - dft2comp[8,2])/dft2[8,2])*100
+
+quiz_2.8_2_left = ((dft2[27,2] - dft2comp[27,2])/dft2[27,2])*100
+
+quiz_2.20_2_left = ((dft2[39,2] - dft2comp[39,2])/dft2[39,2])*100
+
+quiz_3.11_2_left = ((dft2[53,2] - dft2comp[53,2])/dft2[53,2])*100
+
+test_2_left = ((dft2[60,2] - dft2comp[60,2])/dft2[60,2])*100
+
+question_length_2 = c(6,3,1,3,9)
+people_left_2 = c(quiz_1.8_2_left,quiz_2.8_2_left ,quiz_2.20_2_left, quiz_3.11_2_left, test_2_left)
+cor(as.numeric(question_length_2), people_left_2)
+plot(as.numeric(question_length_2), people_left_2, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 2")
+abline(lm(people_left_2~question_length_2), col = "red", lty = 2)
+text(2, 11.5, expression(r == 0.09521637))
+
+# RUN 3
+dft3 = as.data.frame(t3)
+dft3comp = as.data.frame(t3_complete)
+quiz_1.8_3_left = ((dft3[8,2] - dft3comp[8,2])/dft3[8,2])*100
+
+quiz_2.8_3_left = ((dft3[27,2] - dft3comp[27,2])/dft3[27,2])*100
+
+quiz_2.20_3_left = ((dft3[39,2] - dft3comp[39,2])/dft3[39,2])*100
+
+quiz_3.11_3_left = ((dft3[53,2] - dft3comp[53,2])/dft3[53,2])*100
+
+test_3_left = ((dft3[60,2] - dft3comp[60,2])/dft3[60,2])*100
+
+question_length_3 = c(6,3,1,3,9)
+people_left_3 = c(quiz_1.8_3_left,quiz_2.8_3_left ,quiz_2.20_3_left, quiz_3.11_3_left, test_3_left)
+cor(as.numeric(question_length_3), people_left_3)
+plot(as.numeric(question_length_3), people_left_3, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 3")
+abline(lm(people_left_3~question_length_3), col = "red", lty = 2)
+text(2, 13.7, expression(r == 0.5491551))
+
+# RUN 4 
+dft4 = as.data.frame(t4)
+dft4comp = as.data.frame(t4_complete)
+quiz_1.8_4_left = ((dft4[8,2] - dft4comp[8,2])/dft4[8,2])*100
+
+quiz_2.8_4_left = ((dft4[27,2] - dft4comp[27,2])/dft4[27,2])*100
+
+quiz_2.20_4_left = ((dft4[39,2] - dft4comp[39,2])/dft4[39,2])*100
+
+quiz_3.11_4_left = ((dft4[53,2] - dft4comp[53,2])/dft4[53,2])*100
+
+test_4_left = ((dft4[60,2] - dft4comp[60,2])/dft4[60,2])*100
+
+question_length_4 = c(6,3,1,3,9)
+people_left_4 = c(quiz_1.8_4_left,quiz_2.8_4_left ,quiz_2.20_4_left, quiz_3.11_4_left, test_4_left)
+cor(as.numeric(question_length_4), people_left_4)
+plot(as.numeric(question_length_4), people_left_4, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 4")
+abline(lm(people_left_4~question_length_4), col = "red", lty = 2)
+text(2, 15, expression(r == 0.5727359))
+
+# RUN 5 
+dft5 = as.data.frame(t5)
+dft5comp = as.data.frame(t5_complete)
+quiz_1.8_5_left = ((dft5[8,2] - dft5comp[8,2])/dft5[8,2])*100
+
+quiz_2.8_5_left = ((dft5[27,2] - dft5comp[27,2])/dft5[27,2])*100
+
+quiz_2.20_5_left = ((dft5[39,2] - dft5comp[39,2])/dft5[39,2])*100
+
+quiz_3.11_5_left = ((dft5[53,2] - dft5comp[53,2])/dft5[53,2])*100
+
+test_5_left = ((dft5[60,2] - dft5comp[60,2])/dft5[60,2])*100
+
+question_length_5 = c(6,3,1,3,9)
+people_left_5 = c(quiz_1.8_5_left,quiz_2.8_5_left ,quiz_2.20_5_left, quiz_3.11_5_left, test_5_left)
+cor(as.numeric(question_length_5), people_left_5)
+dfqp1 = data.frame(question_length_5, people_left_5)
+plot(as.numeric(question_length_5), people_left_5, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 5")
+abline(lm(people_left_5~question_length_5), col = "red", lty = 2)
+text(2, 14, expression(r == 0.4587964))
+
+
+# RUN 6 
+dft6 = as.data.frame(t6)
+dft6comp = as.data.frame(t6_complete)
+quiz_1.8_6_left = ((dft6[8,2] - dft6comp[8,2])/dft6[8,2])*100
+
+quiz_2.8_6_left = ((dft6[27,2] - dft6comp[27,2])/dft6[27,2])*100
+
+quiz_2.20_6_left = ((dft6[39,2] - dft6comp[39,2])/dft6[39,2])*100
+
+quiz_3.11_6_left = ((dft6[53,2] - dft6comp[53,2])/dft6[53,2])*100
+
+test_6_left = ((dft6[60,2] - dft6comp[60,2])/dft6[60,2])*100
+
+question_length_6 = c(6,3,1,3,9)
+people_left_6 = c(quiz_1.8_6_left,quiz_2.8_6_left ,quiz_2.20_6_left, quiz_3.11_6_left, test_6_left)
+cor(as.numeric(question_length_6), people_left_6)
+plot(as.numeric(question_length_6), people_left_6, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 6")
+abline(lm(people_left_6~question_length_6), col = "red", lty = 2)
+text(2, 18.7, expression(r == 0.8231372))
+
+# RUN 7 
+dft7 = as.data.frame(t7)
+dft7comp = as.data.frame(t7_complete)
+quiz_1.8_7_left = ((dft7[8,2] - dft7comp[8,2])/dft7[8,2])*100
+
+quiz_2.8_7_left = ((dft7[27,2] - dft7comp[27,2])/dft7[27,2])*100
+
+quiz_2.20_7_left = ((dft7[39,2] - dft7comp[39,2])/dft7[39,2])*100
+
+quiz_3.11_7_left = ((dft7[53,2] - dft7comp[53,2])/dft7[53,2])*100
+
+test_7_left = ((dft7[60,2] - dft7comp[60,2])/dft7[60,2])*100
+
+question_length_7 = c(6,3,1,3,9)
+people_left_7 = c(quiz_1.8_7_left,quiz_2.8_7_left ,quiz_2.20_7_left, quiz_3.11_7_left, test_7_left)
+cor(as.numeric(question_length_7), people_left_7)
+plot(as.numeric(question_length_7), people_left_7, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
+     main = "Run 7")
+abline(lm(people_left_7~question_length_7), col = "red", lty = 2)
+text(2, 18, expression(r == 0.5011749))
+
+
+
+
 # Now for runs 3-7 we have some video stats that would be interesting to look. We will exclude run 3, since 
 # it does not differ much from 4_7 and is also older:
 
