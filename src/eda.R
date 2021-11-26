@@ -5,29 +5,23 @@ setwd("/Volumes/KINGSTON/Data Management and EDA project")
 load.project()
 
 install.packages("ggplot2")
+install.packages("gridExtra")
 library("ggplot2")
-
+library(gridExtra)
 
 library(readr)
 
 library(gdata)
 unknownToNA(cyber.security.1_enrolments$gender, unknown = "Unknown")
 
-# Barplot showing the gender 
-barplot(table(cyber.security.1_enrolments$gender))
-table(cyber.security.1.enrolments$gender)
 
 # Find the number of people who enrolled in each graph 
+nr1 = nrow(cyber.security.1_enrolments)
 nr2 = nrow(cyber.security.2_enrolments)
-
 nr3 = nrow(cyber.security.3_enrolments)
-
 nr4 = nrow(cyber.security.4_enrolments)
-
 nr5 = nrow(cyber.security.5_enrolments)
-
 nr6 = nrow(cyber.security.6_enrolments)
-
 nr7 = nrow(cyber.security.7_enrolments)
 
 
@@ -37,7 +31,7 @@ number_of_enrollments
 
 par(mfrow = c(1, 2))
 plot(number_of_enrollments, xlab = "Run number", ylab = "Number of enrollments", type = "b",
-     main = "Plot of enrollments numbers over each run")
+     main = "Plot of enrollments numbers over each run", cex.main = 0.8)
 # We observe that there is a major declining trend in student's enrollments over the 7 runs 
 
 # Find out how many people actually completed the course in each run 
@@ -67,7 +61,7 @@ number_of_sucessfull_completions = c(successful_run1, successful_run2, successfu
                                      successful_run7)
 
 plot(number_of_sucessfull_completions, xlab = "Run number", ylab = "% of people who fully participated",
-     type = "b", main = "Plot of % of people who completed the course")
+     type = "b", main = "Plot of % of people who completed the course", cex.main = 0.8)
 
 # We observe that for example in run 2 even though we have more people enrolled compared to runs 
 # 3-7, the percentage of people that actually completed the course is the lowest. 
@@ -125,47 +119,22 @@ barplot((table(cyber.security.7_enrolments$age_range)/nr7)*100, main = "Run 6", 
 # Now for the ones that completed the course
 df4_age = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
 df4_age_all = df4_age[apply(df4_age != "", 1, all),]
-barplot(table(df4_age_all$age_range), col = "darkseagreen2", main = "Run 4", ylab = "%")
+barplot((table(df4_age_all$age_range)/nrow(df4_age_all))*100, col = "darkseagreen2", main = "Run 4", ylab = "%")
 
 df5_age = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
 df5_age_all = df5_age[apply(df5_age != "", 1, all),]
-barplot(table(df5_age_all$age_range), col = "salmon", main = "Run 5", ylab = "%")
+barplot((table(df5_age_all$age_range)/nrow(df5_age_all))*100, col = "salmon", main = "Run 5", ylab = "%")
 
 df6_age = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
 df6_age_all = df6_age[apply(df6_age != "", 1, all),]
-barplot(table(df6_age_all$age_range), col = "violet", main = "Run 6", ylab = "%")
+barplot((table(df6_age_all$age_range)/nrow(df6_age_all))*100, col = "violet", main = "Run 6", ylab = "%")
 
 df7_age = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
 df7_age_all = df7_age[apply(df7_age != "", 1, all),]
-barplot(table(df7_age_all$age_range), col = "yellow", main = "Run 7", ylab = "%")
+barplot((table(df7_age_all$age_range)/nrow(df7_age_all))*100, col = "yellow", main = "Run 7", ylab = "%")
 
 # We observe in runs 4,6 and 7 more younger people to have completed. However for run 5, the only two poeple,
 # who had registered age group were >65. So age may be a factor affecting completion, but again not certain results. 
-
-nrow(cyber.security.4_leaving.survey.responses)
-nrow(cyber.security.5_leaving.survey.responses)
-nrow(cyber.security.6_leaving.survey.responses)
-nrow(cyber.security.7_leaving.survey.responses)
-
-leaving_numbers = c(nrow(cyber.security.4_leaving.survey.responses), nrow(cyber.security.5_leaving.survey.responses),
-                    nrow(cyber.security.6_leaving.survey.responses), nrow(cyber.security.7_leaving.survey.responses))
-
-plot(4:7, leaving_numbers, xaxt = "n", type = "b",
-     xlab = "Run", ylab = "People leaving", main = "Plot of run number against people leaving")
-axis(1,at = 4:7)
-points(5,nrow(cyber.security.5_leaving.survey.responses), col = "red", pch = 19)
-
-# As expected we see a much higher number of people in run 5 that have left (completed the leaving survey). Now
-# let's see the main reasons why:
-df_leaving_5 = as.data.frame(table(cyber.security.5_leaving.survey.responses$leaving_reason))
-colnames(df_leaving_5) = c("Reason", "Number")
-leaving_barplot_5 = ggplot(df_leaving_5, aes(x = Reason, y = Number, fill = Reason, col = Reason)) + geom_bar(stat="identity") + xlab("Reason") +
-  ylab("Frequency") + ggtitle("Plot of leaving reasons aginst frequency (Run 5)") + theme(axis.title.x=element_blank(),
-                                                                                          axis.text.x=element_blank(),
-                                                                                          axis.ticks.x=element_blank())
-leaving_barplot_5
-# We see that the reason of not having enough time is one of the main ones. Moreover it seemed like a fair amount
-# of people did not think that the course would help in reaching their goals
 
 
 # I may be approaching the end of the first CRISPDM cycle because I have reached some dead
@@ -270,7 +239,7 @@ legend("topleft", legend=c("Participated", "Completed"),
 #  xlab("Step number") + ylab("Step Engagement") + ggtitle("Plot of step engagement over the 7 runs") + ylim(0,5000)
 
 complete_step_act = ggplot(all_run_activity_step_complete, aes(x = steps, y = se, colour = factor(run), group = run ))  + geom_line() +
-  xlab("Step number") + ylab("Completed Step Engagement") + ggtitle("Plot of completed step engagement over the 7 runs") + ylim(0,5000)
+  xlab("Step number") + ylab("Completed Step Engagement") + ggtitle("Plot of completed step engagement over the 7 runs") + 
 complete_step_act
 
 # We observe that the step activity completion  for run 1 is the highest. This can be explained by the fact
