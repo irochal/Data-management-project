@@ -209,6 +209,7 @@ Looking more closely at the quizzes and the test, the following are found:
 df_quiz_step = data.frame(Quiz_and_test = c(1.8, 2.8, 2.20, 3.11, 3.18),step_number = c(6,3,1,3,9))
 knitr::kable(df_quiz_step, "simple")
 ```
+
 So it is observed that quiz number 2.20 only has one question, while the test has 9 questions and the other quizzes have 3 and 6 question. So the following question arises: 
 
 * Is it posible that engagement on the quizzes and the test is affected by the number of questions? 
@@ -362,5 +363,75 @@ abline(lm(people_left_7~question_length_7), col = "red", lty = 2)
 text(2, 18, expression(r == 0.5011749))
 ```
 
-Looking at the plots and the correlation coefficients for each run, it is clear that for all runs except run 2 there is a moderate to strong positive correlation between the percentage of people not completing the quizzes/test and the number of quiz/test question. So this means that in general the more questions a quiz or a test contains the more probable it is that the participant will not complete it. So, the course developers should consider creating shorter quizzes in order to boost engagement. 
+Looking at the plots and the correlation coefficients for each run, it is clear that for all runs except run 2 there is a moderate to strong positive correlation between the percentage of people not completing the quizzes/test and the number of quiz/test question. In this case it seems that run 2 is an outlier. So this means that in general the more questions a quiz or a test contains the more probable it is that the participant will not complete it. So, the course developers should consider creating shorter quizzes in order to boost engagement. 
+Looking step activity for investigating engagement generated some very interesting results that can help course developers understand better what affects people's engagement. However a very interesting part of the data sets are the video statistics that are provided for runs 3-7. 
+
+The video statistics data sets can help answer the questions below: 
+
+* Are there any particular videos that participants seem to engage more/less when compared to others?
+* Is this pattern the same in every run?
+* If there are videos with higher/lower engagement, what factor(s) drive this higher/lower popularity? 
+
+For the analysis below data from runs 4-7 are used. Run 3 is excluded because it exhibits simialar patters to the other 4. Moreover, runs 4-7 are most recent when compared to run 3. The plots below show the percentage of people who watched up to a specific percentage of the video duration. The videos are separated by week, in order to make the plots more readable: 
+
+```{r ggplot libraries, echo=FALSE, include=FALSE}
+library(ggplot2)
+library(gridExtra)
+```
+
+```{r ggplot for vid stats, echo=FALSE, fig.width= 14, fig.height= 5.5}
+library(ggplot2)
+library(gridExtra)
+# RUN 4
+p1_run4 = ggplot(ndf4_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 1)") 
+
+p2_run4 = ggplot(ndf4_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 2)") 
+
+p3_run4 = ggplot(ndf4_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 3)") 
+
+grid.arrange(p1_run4, p2_run4, p3_run4, nrow = 1, ncol=3)
+
+# RUN 5 
+p1_run5 = ggplot(ndf5_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 1)") 
+
+p2_run5 = ggplot(ndf5_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 2)") 
+
+p3_run5 = ggplot(ndf5_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 3)") 
+
+grid.arrange(p1_run5, p2_run5, p3_run5,nrow = 3, ncol=3)
+
+# RUN 6
+p1_run6 = ggplot(ndf6_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 6 (Week 1)") 
+
+p2_run6 = ggplot(ndf6_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 6 (Week 2)") 
+
+p3_run6 = ggplot(ndf6_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 6 (Week 3)") 
+
+grid.arrange(p1_run6, p2_run6, p3_run6,nrow = 1, ncol=3)
+
+# RUN 7 
+p1_run7 = ggplot(ndf7_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 7 (Week 1)") 
+
+p2_run7 = ggplot(ndf7_video_week2, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 7 (Week 2)") 
+
+p3_run7 = ggplot(ndf7_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
+  xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 7 (Week 3)") 
+
+grid.arrange(p1_run7, p2_run7, p3_run6,nrow = 1, ncol=3)
+```
+
+
+
+
 
