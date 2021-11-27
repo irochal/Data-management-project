@@ -216,8 +216,8 @@ So it is observed that quiz number 2.20 only has one question, while the test ha
 
 In order to investigate that the following plot is produced: 
 
-``` {r cor plots for quiz and engagement, fig.width = 13, fig.height = 6.5, echo = FALSE}
-par(mfrow = c(2, 3))
+``` {r cor plots for quiz and engagement, fig.width = 13.5, fig.height = 6.8, echo = FALSE}
+par(mfrow = c(1, 2))
 
 df_quiz_step = data.frame(Quiz_and_test = c(1.8, 2.8, 2.20, 3.11, 3.18),step_number = c(6,3,1,3,9))
 # Find the percentage of people that engagged in quizes and test but did not complete 
@@ -379,9 +379,7 @@ library(ggplot2)
 library(gridExtra)
 ```
 
-```{r ggplot for vid stats, echo=FALSE, fig.width= 14, fig.height= 5.5}
-library(ggplot2)
-library(gridExtra)
+```{r ggplot for vid stats, echo=FALSE, fig.width= 16,  out.width="115%", fig.align = "left"}
 # RUN 4
 p1_run4 = ggplot(ndf4_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
   xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 4 (Week 1)") 
@@ -404,7 +402,7 @@ p2_run5 = ggplot(ndf5_video_week2, aes(x = as.numeric(name), y = value, colour =
 p3_run5 = ggplot(ndf5_video_week3, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
   xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 3)") 
 
-grid.arrange(p1_run5, p2_run5, p3_run5,nrow = 3, ncol=3)
+grid.arrange(p1_run5, p2_run5, p3_run5,nrow = 1, ncol=3)
 
 # RUN 6
 p1_run6 = ggplot(ndf6_video_week1, aes(x = as.numeric(name), y = value, colour = factor(`Step position`), group =`Step position` ))  + geom_line() +
@@ -430,6 +428,104 @@ p3_run7 = ggplot(ndf7_video_week3, aes(x = as.numeric(name), y = value, colour =
 
 grid.arrange(p1_run7, p2_run7, p3_run6,nrow = 1, ncol=3)
 ```
+
+The first thing to notice, is that for all runs and for all weeks, there is a very steep decline in video engagement, on the last 5% of the the videos. So in general most people tend to watch up to 95% of the videos, and then leave the step. If these last seconds of the videos, contain just references, titles and trademarks etc, it is normal for people to leave, especially if this is the same in all videos. However if in this last 5% important information is being shared, then it would be better if the important details of the videos, were mentioned towards the beginning or the middle of the videos. So for more accurate conclusions it would be better to look at the engagement up to 95% of the videos. 
+
+In general, looking at all runs, for week 1 there is the most decline in engagement for video 1.5
+For week 2 there is a steep decline in engagement for videos 2.4 and 2.11 and for week 3 in general there is quite a constant engagement in the videos, with video 3.14 and 3.2 being the videos where more people left, compared to the other two videos of the week. However from the previous plots it was found that the engagement in steps during week 3 was lower and more constant, so probably the people that have stayed through week 3 are interested more in the course, tend to watch more parts of the videos. Even though there similar pattern along the 4 runs, there are also some differences. 
+So the question arises: 
+
+* Why do some videos have higher and more constant engagement? 
+* Could duration play a role in that? 
+
+The table below shows the duration of the videos:
+
+```{r video duration table, echo=FALSE}
+video_duration_4 = data.frame(step_position = cyber.security.4_video.stats$step_position,
+                              duration_in_seconds = cyber.security.4_video.stats$video_duration)
+knitr::kable(video_duration_4, "simple")
+```
+
+It seems that some videos have longer duration. In order to see if this affects engagement, the correlation between duration and engagement up to 95% of the videos was computed and the following plots were produced: 
+
+```{r corr plots video engagement, echo=FALSE, fig.width= 10}
+par(mfrow = c(1, 2))
+# RUN 4 
+plot(cyber.security.4_video.stats$viewed_ninetyfive_percent, cyber.security.4_video.stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 4)")
+abline(lm(cyber.security.4_video.stats$video_duration ~ cyber.security.4_video.stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+text(65, 400, expression(r == -0.817063))
+
+# RUN 5 
+plot(cyber.security.5_video.stats$viewed_ninetyfive_percent, cyber.security.5_video.stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 5)")
+abline(lm(cyber.security.5_video.stats$video_duration ~ cyber.security.5_video.stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+text(74, 400, expression(r == -0.6827021))
+
+# RUN 6 
+plot(cyber.security.6_video.stats$viewed_ninetyfive_percent, cyber.security.6_video.stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 6)")
+abline(lm(cyber.security.6_video.stats$video_duration ~ cyber.security.6_video.stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+text(70, 400, expression(r == -0.7175826))
+
+# RUN 7 
+
+plot(cyber.security.7_video.stats$viewed_ninetyfive_percent, cyber.security.7_video.stats$video_duration,
+     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     main = "Plot of video duration vs engagement (Run 7)")
+abline(lm(cyber.security.7_video.stats$video_duration ~ cyber.security.7_video.stats$viewed_ninetyfive_percent),
+       lty = 2 , col = "red")
+text(68, 400, expression(r == -0.8331848))
+
+```
+
+Looking at the plots and the coefficients of correlations, it is clear that runs 4,6 and 7 have a strong negative corelation between duration and engagement, while run 5 has a moderate negative correlation. This measn that in general, for all runs, the longer the duration of the video, the lower the engagement. Before it was found that in run 5, there were more older people that signed up compared to the other runs, so this could mean that older people do not mind longer videos, while young ones prefer shorter ones. However this is just an assumption. 
+
+In order to get a better idea of which videos are more popular the following plot was generated. This plot shows the percentage of people that started watching a video, but left before watching up to 95% of it: 
+
+```{r barplot video engagement, echo=FALSE, fig.width= 14, fig.height=10}
+# RUN 4
+video_eng = cyber.security.4_video.stats$viewed_five_percent - cyber.security.4_video.stats$viewed_ninetyfive_percent
+d4f = data.frame(step = cyber.security.4_video.stats$step_position , left = video_eng)  
+d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
+
+# RUN 5
+video_eng = cyber.security.5_video.stats$viewed_five_percent - cyber.security.5_video.stats$viewed_ninetyfive_percent
+d5f = data.frame(step = cyber.security.5_video.stats$step_position , left = video_eng)  
+d5f_plot = ggplot(d5f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
+
+# RUN 6
+video_eng = cyber.security.6_video.stats$viewed_five_percent - cyber.security.6_video.stats$viewed_ninetyfive_percent
+d6f = data.frame(step = cyber.security.6_video.stats$step_position , left = video_eng)  
+d6f_plot = ggplot(d6f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
+
+# RUN 7
+video_eng = cyber.security.7_video.stats$viewed_five_percent - cyber.security.7_video.stats$viewed_ninetyfive_percent
+d7f = data.frame(step = cyber.security.7_video.stats$step_position , left = video_eng)  
+d7f_plot = ggplot(d7f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
+  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
+
+grid.arrange(d4f_plot, d5f_plot, d6f_plot, d7f_plot)
+```
+
+The first observation that is common for all runs is that video 1.5, which has duration of 281 seconds, has the largest dropout rate among all videos in week 1 and all videos in general. Then for week 2 video 2.11, which has duration of 312 seconds, has the largest dropout and for week 3
+except for run 6, video 3.14, which has duration of 313 seconds,  is the one with the highest dropout. As expected these are videos are ones of longer duration. Now the videos with the lowest dropouts among all weeks for most runs are videos 2.1, which lasts 37 seconds, and 2.17, which lasts 92 seconds. Also what is quite interesting is that video 2.4 has the longest duration, but it is not the one with the highest dropout, in any of the runs, and compared to other videos it has quite a better dropout rate. So the theme of the video seems to be something that people are interested in and the course developers may want to introduce more related material to the course. Moreover video number 1.10, which lasts 99 seconds seems to have higher dropout rate in most runs except run 7, when compared to video number 1.14 which last 362 seconds. So again the content of the video, may be an area that people who participate in this course are more interested in. Finally, if the videos have different people delivering them, this could also be a factor affecting engagement. So for example one of the lectures may be preferred by the participants and that is why some videos may be longer but have higher engagement than expected. However this is just an assumption, that may not apply in the course. 
+
+
+
+
+
+
+
 
 
 
