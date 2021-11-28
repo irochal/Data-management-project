@@ -485,6 +485,7 @@ plot(cyber.security.4_video.stats$viewed_ninetyfive_percent, cyber.security.4_vi
      main = "Plot of video duration vs engagement (Run 4)")
 abline(lm(cyber.security.4_video.stats$video_duration ~ cyber.security.4_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
+text(65, 400, expression(r == -0.817063))
 
 cor(cyber.security.4_video.stats$viewed_ninetyfive_percent, cyber.security.4_video.stats$video_duration)
 
@@ -520,6 +521,7 @@ plot(cyber.security.5_video.stats$viewed_ninetyfive_percent, cyber.security.5_vi
      main = "Plot of video duration vs engagement (Run 5)")
 abline(lm(cyber.security.5_video.stats$video_duration ~ cyber.security.5_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
+text(65, 400, expression(r == -0.6827021))
 
 cor(cyber.security.5_video.stats$viewed_ninetyfive_percent, cyber.security.5_video.stats$video_duration)
 # Here we observe less correlation between duration and engagement. Could this mean that younger people
@@ -553,6 +555,8 @@ plot(cyber.security.6_video.stats$viewed_ninetyfive_percent, cyber.security.6_vi
      main = "Plot of video duration vs engagement (Run 6)")
 abline(lm(cyber.security.6_video.stats$video_duration ~ cyber.security.6_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
+text(65, 400, expression(r == -0.7175826))
+
 
 cor(cyber.security.6_video.stats$viewed_ninetyfive_percent, cyber.security.6_video.stats$video_duration)
 
@@ -584,6 +588,8 @@ plot(cyber.security.7_video.stats$viewed_ninetyfive_percent, cyber.security.7_vi
      main = "Plot of video duration vs engagement (Run 7)")
 abline(lm(cyber.security.7_video.stats$video_duration ~ cyber.security.7_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
+text(65, 400, expression(r == -0.8331848))
+
 
 cor(cyber.security.7_video.stats$viewed_ninetyfive_percent, cyber.security.7_video.stats$video_duration)
 # Again very strong negative correlation (-0.8331848)
