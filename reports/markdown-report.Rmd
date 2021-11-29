@@ -1,7 +1,8 @@
 ---
 title: "CSC8631 Report"
-output: pdf_document
-fig_caption: yes
+output: 
+  pdf_document:
+  fig_caption: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -35,19 +36,12 @@ nr5 = nrow(cyber.security.5_enrolments)
 nr6 = nrow(cyber.security.6_enrolments)
 nr7 = nrow(cyber.security.7_enrolments)
 number_of_enrollments = c(nr1,nr2,nr3,nr4,nr5,nr6,nr7)
-fp1 = cyber.security.1_enrolments$fully_participated_at[cyber.security.1_enrolments$fully_participated_at != ""]
 successful_run1 = (length(fp1)/nr1) *100
-fp2 = cyber.security.2_enrolments$fully_participated_at[cyber.security.2_enrolments$fully_participated_at != ""]
 successful_run2 = (length(fp2)/nr2) *100
-fp3 = cyber.security.3_enrolments$fully_participated_at[cyber.security.3_enrolments$fully_participated_at != ""]
 successful_run3 = (length(fp3)/nr3)*100
-fp4 = cyber.security.4_enrolments$fully_participated_at[cyber.security.4_enrolments$fully_participated_at != ""]
 successful_run4 = (length(fp4)/ nr4)*100
-fp5 = cyber.security.5_enrolments$fully_participated_at[cyber.security.5_enrolments$fully_participated_at != ""]
 successful_run5 = (length(fp5)/ nr5)*100
-fp6 = cyber.security.6_enrolments$fully_participated_at[cyber.security.6_enrolments$fully_participated_at != ""]
 successful_run6 = (length(fp6)/ nr6) *100
-fp7 = cyber.security.7_enrolments$fully_participated_at[cyber.security.7_enrolments$fully_participated_at != ""]
 successful_run7 = (length(fp7)/ nr7) *100
 number_of_sucessfull_completions = c(successful_run1, successful_run2, successful_run3,
                                      successful_run4, successful_run5, successful_run6,
@@ -70,7 +64,7 @@ Two interesting areas to look at are gender and age. So the questions below aris
 
 To get an idea of how the gender differs across the hour runs the following bar plots are generated. These bar plots include data for all people that participated and not just the ones that completed the course: 
 
-``` {r barplots gender all participants, fig.width = 9, fig.height = 3, fig.cap = "Gender statistics for people enrolled in runs 4-7" , echo = FALSE}
+``` {r barplots_gender_all_participants, fig.width = 9, fig.height = 3, fig.cap = "Gender statistics for people enrolled in runs 4-7" , echo = FALSE}
 
 par(mfrow = c(1, 2))
 barplot((table(cyber.security.4_enrolments$gender)/nr4)*100, main = "Run 4", ylab = "%", col = "darkseagreen 2")
@@ -84,20 +78,12 @@ However it would be interesting to also investigate whether there were differenc
 
 ``` {r barplots gender completed , fig.width = 9, fig.height = 3, fig.cap = "Gender statistics for people enrolled in runs 4-7" , echo = FALSE}
 par(mfrow = c(1, 2))
-df4 = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "gender")]
-df4_gender = df4[apply(df4 != "", 1, all),]
 barplot((table(df4_gender$gender)/nrow(df4_gender))*100, main = "Run 4", xlab = "Gender", ylab = "%", col = "darkseagreen2")
 
-df5 = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "gender")]
-df5_gender = df5[apply(df5 != "", 1, all),]
 barplot((table(df5_gender$gender)/nrow(df5_gender))*100, main = "Run 5", xlab = "Gender", ylab = "%", col = "salmon")
 
-df1_6 = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "gender")]
-df6_gender = df1_6[apply(df1_6 != "", 1, all),]
 barplot((table(df6_gender$gender)/nrow(df6_gender))*100,  ylim = c(0,200), main = "Run 6", xlab = "Gender", ylab = "%", col = "violet")
 
-df1_7 = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "gender")]
-df7_gender = df1_7[apply(df1_7 != "", 1, all),]
 barplot((table(df7_gender$gender)/nrow(df7_gender))*100, ylim = c(0,200), main = "Run 7", xlab = "Gender", ylab = "%", col = "yellow")
 ```
 
@@ -117,20 +103,13 @@ Again most age ranges of the people that enrolled are unknown so just like befor
 
 ```{r barplots age range complete participants, echo=FALSE, fig.width = 15, fig.height = 5, size= 5}
 par(mfrow = c(1, 2))
-df4_age = cyber.security.4_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
-df4_age_all = df4_age[apply(df4_age != "", 1, all),]
+
 barplot((table(df4_age_all$age_range)/nrow(df4_age_all))*100, col = "darkseagreen2", main = "Run 4", ylab = "%")
 
-df5_age = cyber.security.5_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
-df5_age_all = df5_age[apply(df5_age != "", 1, all),]
 barplot((table(df5_age_all$age_range)/nrow(df5_age_all))*100, col = "salmon", main = "Run 5", ylab = "%")
 
-df6_age = cyber.security.6_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
-df6_age_all = df6_age[apply(df6_age != "", 1, all),]
 barplot((table(df6_age_all$age_range)/nrow(df6_age_all))*100, col = "violet", main = "Run 6", ylab = "%")
 
-df7_age = cyber.security.7_enrolments[, c("learner_id", "fully_participated_at", "age_range")]
-df7_age_all = df7_age[apply(df7_age != "", 1, all),]
 barplot((table(df7_age_all$age_range)/nrow(df7_age_all))*100, col = "yellow", main = "Run 7", ylab = "%")
 ```
 
@@ -150,44 +129,48 @@ The plots below, show how engagement of all participants, and participants who c
 ```{r plot engagement over 7 runs, fig.width = 17, fig.height = 6.5, echo=FALSE}
 par(mfrow = c(1, 2))
 
-ddf1 = data.frame(steps1, se1)
 plot(as.numeric(steps1), se1, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Run 1")
 axis(1,at = 1:60, labels = steps1)
 lines(t1_complete[,2], col = "red", lty = 2)
 legend("topright", legend=c("Participated", "Completed"),
         col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
-ddf2 = data.frame(steps2, se2)
+
 plot(as.numeric(steps2), se2, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = " Run 2")
 axis(1,at = 1:63, labels = steps2)
 lines(t2_complete[,2], col = "red", lty = 2)
 legend("topright", legend=c("Participated", "Completed"),
        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+
 plot(as.numeric(steps3), se3, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Run 3")
 axis(1,at = 1:62, labels = steps3)
 lines(t3_complete[,2], col = "red", lty = 2)
 legend("topright", legend=c("Participated", "Completed"),
        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+
 plot(as.numeric(steps4), se4, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Run 4")
 axis(1,at = 1:62, labels = steps4)
 lines(t4_complete[,2], col = "red", lty = 2)
 legend("topright", legend=c("Participated", "Completed"),
        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+
 plot(as.numeric(steps5), se5, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Run 5")
 axis(1,at = 1:62, labels = steps5)
 lines(t5_complete[,2], col = "red", lty = 2)
 legend("topright", legend=c("Participated", "Completed"),
        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+
 plot(as.numeric(steps6), se6, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Run 6")
 axis(1,at = 1:62, labels = steps6)
 lines(t6_complete[,2], col = "red", lty = 2)
 legend("topright", legend=c("Participated", "Completed"),
        col=c("black", "red"), lty=1:2, cex=0.8, bty = "n")
+
 plot(as.numeric(steps7), se4, type = "l", xaxt = "n", xlab = "Step number", 
      ylab = "People engaging in each step", main = "Run 7")
 axis(1,at = 1:62, labels = steps7)
@@ -221,20 +204,7 @@ In order to investigate that the following plots are produced:
 ``` {r cor plots for quiz and engagement, fig.width = 13.5, fig.height = 6.8, echo = FALSE}
 par(mfrow = c(1, 2))
 
-df_quiz_step = data.frame(Quiz_and_test = c(1.8, 2.8, 2.20, 3.11, 3.18),step_number = c(6,3,1,3,9))
-# Find the percentage of people that engagged in quizes and test but did not complete 
-dft1 = as.data.frame(t1)
-dft1comp = as.data.frame(t1_complete)
-quiz_1.8_1_left = ((dft1[8,2] - dft1comp[8,2])/dft1[8,2])*100
-
-quiz_2.8_1_left = ((dft1[26,2] - dft1comp[26,2])/dft1[26,2])*100
-
-quiz_2.20_1_left = ((dft1[38,2] - dft1comp[38,2])/dft1[38,2])*100
-
-quiz_3.11_1_left = ((dft1[50,2] - dft1comp[50,2])/dft1[50,2])*100
-
-test_1_left = ((dft1[57,2] - dft1comp[57,2])/dft1[57,2])*100
-
+# RUN 1
 question_length_1 = c(6,3,1,3,9)
 people_left_1 = c(quiz_1.8_1_left,quiz_2.8_1_left ,quiz_2.20_1_left, quiz_3.11_1_left, test_1_left)
 plot(as.numeric(question_length_1), people_left_1, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
@@ -243,18 +213,6 @@ abline(lm(people_left_1~question_length_1), col = "red", lty = 2)
 text(2, 17, expression(r == 0.9808962))
 
 # RUN 2 
-dft2 = as.data.frame(t2)
-dft2comp = as.data.frame(t2_complete)
-quiz_1.8_2_left = ((dft2[8,2] - dft2comp[8,2])/dft2[8,2])*100
-
-quiz_2.8_2_left = ((dft2[27,2] - dft2comp[27,2])/dft2[27,2])*100
-
-quiz_2.20_2_left = ((dft2[39,2] - dft2comp[39,2])/dft2[39,2])*100
-
-quiz_3.11_2_left = ((dft2[53,2] - dft2comp[53,2])/dft2[53,2])*100
-
-test_2_left = ((dft2[60,2] - dft2comp[60,2])/dft2[60,2])*100
-
 question_length_2 = c(6,3,1,3,9)
 people_left_2 = c(quiz_1.8_2_left,quiz_2.8_2_left ,quiz_2.20_2_left, quiz_3.11_2_left, test_2_left)
 plot(as.numeric(question_length_2), people_left_2, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
@@ -263,18 +221,6 @@ abline(lm(people_left_2~question_length_2), col = "red", lty = 2)
 text(2, 11.5, expression(r == 0.09521637))
 
 # RUN 3
-dft3 = as.data.frame(t3)
-dft3comp = as.data.frame(t3_complete)
-quiz_1.8_3_left = ((dft3[8,2] - dft3comp[8,2])/dft3[8,2])*100
-
-quiz_2.8_3_left = ((dft3[27,2] - dft3comp[27,2])/dft3[27,2])*100
-
-quiz_2.20_3_left = ((dft3[39,2] - dft3comp[39,2])/dft3[39,2])*100
-
-quiz_3.11_3_left = ((dft3[53,2] - dft3comp[53,2])/dft3[53,2])*100
-
-test_3_left = ((dft3[60,2] - dft3comp[60,2])/dft3[60,2])*100
-
 question_length_3 = c(6,3,1,3,9)
 people_left_3 = c(quiz_1.8_3_left,quiz_2.8_3_left ,quiz_2.20_3_left, quiz_3.11_3_left, test_3_left)
 plot(as.numeric(question_length_3), people_left_3, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
@@ -283,18 +229,6 @@ abline(lm(people_left_3~question_length_3), col = "red", lty = 2)
 text(2, 13.7, expression(r == 0.5491551))
 
 # RUN 4 
-dft4 = as.data.frame(t4)
-dft4comp = as.data.frame(t4_complete)
-quiz_1.8_4_left = ((dft4[8,2] - dft4comp[8,2])/dft4[8,2])*100
-
-quiz_2.8_4_left = ((dft4[27,2] - dft4comp[27,2])/dft4[27,2])*100
-
-quiz_2.20_4_left = ((dft4[39,2] - dft4comp[39,2])/dft4[39,2])*100
-
-quiz_3.11_4_left = ((dft4[53,2] - dft4comp[53,2])/dft4[53,2])*100
-
-test_4_left = ((dft4[60,2] - dft4comp[60,2])/dft4[60,2])*100
-
 question_length_4 = c(6,3,1,3,9)
 people_left_4 = c(quiz_1.8_4_left,quiz_2.8_4_left ,quiz_2.20_4_left, quiz_3.11_4_left, test_4_left)
 plot(as.numeric(question_length_4), people_left_4, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
@@ -303,18 +237,6 @@ abline(lm(people_left_4~question_length_4), col = "red", lty = 2)
 text(2, 15, expression(r == 0.5727359))
 
 # RUN 5 
-dft5 = as.data.frame(t5)
-dft5comp = as.data.frame(t5_complete)
-quiz_1.8_5_left = ((dft5[8,2] - dft5comp[8,2])/dft5[8,2])*100
-
-quiz_2.8_5_left = ((dft5[27,2] - dft5comp[27,2])/dft5[27,2])*100
-
-quiz_2.20_5_left = ((dft5[39,2] - dft5comp[39,2])/dft5[39,2])*100
-
-quiz_3.11_5_left = ((dft5[53,2] - dft5comp[53,2])/dft5[53,2])*100
-
-test_5_left = ((dft5[60,2] - dft5comp[60,2])/dft5[60,2])*100
-
 question_length_5 = c(6,3,1,3,9)
 people_left_5 = c(quiz_1.8_5_left,quiz_2.8_5_left ,quiz_2.20_5_left, quiz_3.11_5_left, test_5_left)
 dfqp1 = data.frame(question_length_5, people_left_5)
@@ -325,18 +247,6 @@ text(2, 14, expression(r == 0.4587964))
 
 
 # RUN 6 
-dft6 = as.data.frame(t6)
-dft6comp = as.data.frame(t6_complete)
-quiz_1.8_6_left = ((dft6[8,2] - dft6comp[8,2])/dft6[8,2])*100
-
-quiz_2.8_6_left = ((dft6[27,2] - dft6comp[27,2])/dft6[27,2])*100
-
-quiz_2.20_6_left = ((dft6[39,2] - dft6comp[39,2])/dft6[39,2])*100
-
-quiz_3.11_6_left = ((dft6[53,2] - dft6comp[53,2])/dft6[53,2])*100
-
-test_6_left = ((dft6[60,2] - dft6comp[60,2])/dft6[60,2])*100
-
 question_length_6 = c(6,3,1,3,9)
 people_left_6 = c(quiz_1.8_6_left,quiz_2.8_6_left ,quiz_2.20_6_left, quiz_3.11_6_left, test_6_left)
 plot(as.numeric(question_length_6), people_left_6, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
@@ -345,18 +255,6 @@ abline(lm(people_left_6~question_length_6), col = "red", lty = 2)
 text(2, 18.7, expression(r == 0.8231372))
 
 # RUN 7 
-dft7 = as.data.frame(t7)
-dft7comp = as.data.frame(t7_complete)
-quiz_1.8_7_left = ((dft7[8,2] - dft7comp[8,2])/dft7[8,2])*100
-
-quiz_2.8_7_left = ((dft7[27,2] - dft7comp[27,2])/dft7[27,2])*100
-
-quiz_2.20_7_left = ((dft7[39,2] - dft7comp[39,2])/dft7[39,2])*100
-
-quiz_3.11_7_left = ((dft7[53,2] - dft7comp[53,2])/dft7[53,2])*100
-
-test_7_left = ((dft7[60,2] - dft7comp[60,2])/dft7[60,2])*100
-
 question_length_7 = c(6,3,1,3,9)
 people_left_7 = c(quiz_1.8_7_left,quiz_2.8_7_left ,quiz_2.20_7_left, quiz_3.11_7_left, test_7_left)
 plot(as.numeric(question_length_7), people_left_7, xlab = "Quiz/Test number of steps", ylab = "% of people not completing",
@@ -368,7 +266,6 @@ text(2, 18, expression(r == 0.5011749))
 Looking at the plots and the correlation coefficients for each run, it is clear that for all runs except run 2 there is a moderate to strong positive correlation between the percentage of people not completing the quizzes/test and the number of quiz/test question. In this case it seems that run 2 is an outlier. So this means that in general the more questions a quiz or a test contains the more probable it is that the participant will not complete it. So, the course developers should consider creating shorter quizzes in order to boost engagement. 
 Looking step activity for investigating engagement generated some very interesting results that can help course developers understand better what affects people's engagement.
 
-\newpage
 ### CRISP DM cycle 3
 
 A third very interesting part of the data sets are the video statistics that are provided for runs 3-7. 
@@ -498,26 +395,18 @@ In order to get a better idea of which videos are more popular the following plo
 
 ```{r barplot video engagement, echo=FALSE, fig.width= 14, fig.height=10}
 # RUN 4
-video_eng = cyber.security.4_video.stats$viewed_five_percent - cyber.security.4_video.stats$viewed_ninetyfive_percent
-d4f = data.frame(step = cyber.security.4_video.stats$step_position , left = video_eng)  
 d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
 
 # RUN 5
-video_eng = cyber.security.5_video.stats$viewed_five_percent - cyber.security.5_video.stats$viewed_ninetyfive_percent
-d5f = data.frame(step = cyber.security.5_video.stats$step_position , left = video_eng)  
 d5f_plot = ggplot(d5f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
 
 # RUN 6
-video_eng = cyber.security.6_video.stats$viewed_five_percent - cyber.security.6_video.stats$viewed_ninetyfive_percent
-d6f = data.frame(step = cyber.security.6_video.stats$step_position , left = video_eng)  
 d6f_plot = ggplot(d6f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
 
 # RUN 7
-video_eng = cyber.security.7_video.stats$viewed_five_percent - cyber.security.7_video.stats$viewed_ninetyfive_percent
-d7f = data.frame(step = cyber.security.7_video.stats$step_position , left = video_eng)  
 d7f_plot = ggplot(d7f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
   ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
 
