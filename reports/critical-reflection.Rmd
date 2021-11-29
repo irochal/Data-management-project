@@ -1,5 +1,5 @@
 ---
-title: "Critical Reflection"
+title: "Project Summary and Critical Reflection"
 output: pdf_document
 ---
 
