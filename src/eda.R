@@ -53,10 +53,10 @@ plot(number_of_sucessfull_completions, xlab = "Run number", ylab = "% of people 
 # Create barplots for the % of people of each gender for runs 4-7 (this is for all people that 
 # registered for the course)
 par(mfrow = c(2, 2))
-barplot((table(cyber.security.4_enrolments$gender)/nr4)*100, main = "Run 4", col = "darkseagreen 2")
-barplot((table(cyber.security.5_enrolments$gender)/nr5)*100, main = "Run 5", col = "salmon")
-barplot((table(cyber.security.6_enrolments$gender)/nr6)*100, main = "Run 6", col = "violet")
-barplot((table(cyber.security.7_enrolments$gender)/nr7)*100, main = "Run 6", col = "yellow")
+barplot((table(cyber.security.4_enrolments$gender)/nr4)*100, main = "Run 4", col = "darkseagreen 2", ylab = "%")
+barplot((table(cyber.security.5_enrolments$gender)/nr5)*100, main = "Run 5", col = "salmon", ylab = "%")
+barplot((table(cyber.security.6_enrolments$gender)/nr6)*100, main = "Run 6", col = "violet", ylab = "%")
+barplot((table(cyber.security.7_enrolments$gender)/nr7)*100, main = "Run 7", col = "yellow", ylab = "%")
 # In general there is no difference in the gender of people who registered for the course
 
 # Now let's look at the people who completed these runs 
@@ -74,10 +74,10 @@ barplot((table(df7_gender$gender)/nrow(df7_gender))*100, ylim = c(0,200), main =
 # Create barplots for the % of people of each age range for runs 4-7 (this is for all people that 
 # registered for the course)
 par(mfrow = c(2, 2))
-barplot((table(cyber.security.4_enrolments$age_range)/nr4)*100, main = "Run 4", col = "darkseagreen 2")
-barplot((table(cyber.security.5_enrolments$age_range)/nr5)*100, main = "Run 5", col = "salmon")
-barplot((table(cyber.security.6_enrolments$age_range)/nr6)*100, main = "Run 6", col = "violet")
-barplot((table(cyber.security.7_enrolments$age_range)/nr7)*100, main = "Run 6", col = "yellow")
+barplot((table(cyber.security.4_enrolments$age_range)/nr4)*100, main = "Run 4", col = "darkseagreen 2", ylab = "%")
+barplot((table(cyber.security.5_enrolments$age_range)/nr5)*100, main = "Run 5", col = "salmon",ylab = "%")
+barplot((table(cyber.security.6_enrolments$age_range)/nr6)*100, main = "Run 6", col = "violet",ylab = "%")
+barplot((table(cyber.security.7_enrolments$age_range)/nr7)*100, main = "Run 7", col = "yellow",ylab = "%")
 
 
 # Now for the ones that completed the course
@@ -259,7 +259,7 @@ p3_run4 = ggplot(ndf4_video_week3, aes(x = as.numeric(name), y = value, colour =
 # Make barplot for the percentage of people that left before watching up to 95% of the video. Each bar
 #represents a video
 d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
 
 grid.arrange(p1_run4, p2_run4, p3_run4, nrow = 1, ncol=3)
 # By looking at the plot we see that all video have a very large decline from 95% to 100%.
@@ -274,7 +274,7 @@ video_duration_4
 # Now let's look if there is a relationship between duration and engagement here as well
 # Make plot of video number against lentgh of the video and find the correlation 
 plot(cyber.security.4_video.stats$viewed_ninetyfive_percent, cyber.security.4_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 4)")
 abline(lm(cyber.security.4_video.stats$video_duration ~ cyber.security.4_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -297,14 +297,14 @@ p3_run5 = ggplot(ndf5_video_week3, aes(x = as.numeric(name), y = value, colour =
   xlab("% viewed") + ylab("% of people who viewed the video") + ggtitle("Plot of video engagement over run 5 (Week 3)") 
 
 d5f_plot = ggplot(d5f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
 
 grid.arrange(p1_run5, p2_run5, p3_run5,nrow = 3, ncol=3)
 
 # Again we observe very similar patterns as before. 
 
 plot(cyber.security.5_video.stats$viewed_ninetyfive_percent, cyber.security.5_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 5)")
 abline(lm(cyber.security.5_video.stats$video_duration ~ cyber.security.5_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -326,14 +326,14 @@ p3_run6 = ggplot(ndf6_video_week3, aes(x = as.numeric(name), y = value, colour =
 
 
 d6f_plot = ggplot(d6f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
 
 grid.arrange(p1_run6, p2_run6, p3_run6,nrow = 1, ncol=3)
 
 # Again we observe very similar patterns as before. 
 
 plot(cyber.security.6_video.stats$viewed_ninetyfive_percent, cyber.security.6_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 6)")
 abline(lm(cyber.security.6_video.stats$video_duration ~ cyber.security.6_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -355,14 +355,14 @@ p3_run7 = ggplot(ndf7_video_week3, aes(x = as.numeric(name), y = value, colour =
 
 
 d7f_plot = ggplot(d7f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
 
 grid.arrange(p1_run7, p2_run7, p3_run6,nrow = 1, ncol=3)
 
 # Again we observe very similar patterns as before. 
 
 plot(cyber.security.7_video.stats$viewed_ninetyfive_percent, cyber.security.7_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 7)")
 abline(lm(cyber.security.7_video.stats$video_duration ~ cyber.security.7_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
