@@ -1,6 +1,4 @@
 library(ProjectTemplate)
-setwd("/Volumes/KINGSTON")
-create.project("Data Management and EDA project")
 setwd("/Volumes/KINGSTON/Data Management and EDA project")
 load.project()
 
