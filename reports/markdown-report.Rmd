@@ -70,7 +70,7 @@ par(mfrow = c(1, 2))
 barplot((table(cyber.security.4_enrolments$gender)/nr4)*100, main = "Run 4", ylab = "%", col = "darkseagreen 2")
 barplot((table(cyber.security.5_enrolments$gender)/nr5)*100, main = "Run 5",ylab = "%", col = "salmon")
 barplot((table(cyber.security.6_enrolments$gender)/nr6)*100, main = "Run 6", ylab = "%",col = "violet")
-barplot((table(cyber.security.7_enrolments$gender)/nr7)*100, main = "Run 6", ylab = "%",col = "yellow")
+barplot((table(cyber.security.7_enrolments$gender)/nr7)*100, main = "Run 7", ylab = "%",col = "yellow")
 ```
 
 In general for all four runs, most people's gender is unknown. This is not ideal as the conclusions made are just from a sample of the population and not the whole population. So the conclusions may not be representative of the population.  However, for run 4 which had the highest completion rate there seems to be more male participants compared to female. For the other runs there is approximately the same percentage numbers of males and females, with run 6 being the only run among these four runs, with more females.So there does not seem to be any significant difference in gender for the people who took part, in the different runs. 
@@ -93,13 +93,13 @@ Other than gender, the age range would also be an interesting factor to look at.
 
 ```{r barplots age range all participants, echo=FALSE, fig.width = 15, fig.height = 5, size= 5}
 par(mfrow = c(1, 2))
-barplot((table(cyber.security.4_enrolments$age_range)/nr4)*100, main = "Run 4", col = "darkseagreen 2")
-barplot((table(cyber.security.5_enrolments$age_range)/nr5)*100, main = "Run 5", col = "salmon")
-barplot((table(cyber.security.6_enrolments$age_range)/nr6)*100, main = "Run 6", col = "violet")
-barplot((table(cyber.security.7_enrolments$age_range)/nr7)*100, main = "Run 6", col = "yellow")
+barplot((table(cyber.security.4_enrolments$age_range)/nr4)*100, main = "Run 4", col = "darkseagreen 2", ylab = "%")
+barplot((table(cyber.security.5_enrolments$age_range)/nr5)*100, main = "Run 5", col = "salmon", ylab = "%")
+barplot((table(cyber.security.6_enrolments$age_range)/nr6)*100, main = "Run 6", col = "violet", ylab = "%")
+barplot((table(cyber.security.7_enrolments$age_range)/nr7)*100, main = "Run 7", col = "yellow", ylab = "%")
 ```
 
-Again most age ranges of the people that enrolled are unknown so just like before the conclusions reached are just an assumption and may not be representative of the truth. Looking at the plots however, there is an interesting finding. It seems like run in 5, which is the run with the lowest completion rate, the majority of registered age ranges, lies in the 46-55, 56-65 and >65 age ranges, while in all the other runs there seem to be more people in the 18-25 and 26-35 age ranges. So there seems to be some evidence that younger people tend to engage more with the course, compared to older people. Moreover it would be interesting to look at the age ranges of people who completed the course in these runs. The results are summarized in the plots below: 
+Again most age ranges of the people that enrolled are unknown so just like before the conclusions reached are just an assumption and may not be representative of the truth. Looking at the plots however, there is an interesting finding. It seems like in run 5, which is the run with the lowest completion rate, the majority of registered age ranges, lies in the 46-55, 56-65 and >65 age ranges, while in all the other runs there seem to be more people in the 18-25 and 26-35 age ranges. So there seems to be some evidence that younger people tend to engage more with the course, compared to older people. Moreover it would be interesting to look at the age ranges of people who completed the course in these runs. The results are summarized in the plots below: 
 
 ```{r barplots age range complete participants, echo=FALSE, fig.width = 15, fig.height = 5, size= 5}
 par(mfrow = c(1, 2))
@@ -188,7 +188,7 @@ It is important to identify these points as this could give an insight to the st
 * Step 3.18 in all runs (Test)
 * Step 3.21 in runs 1 & 2 (Glossary and references)
 
-The results are very interesting. It seems like parts of the course where participants have to complete actions, rather than just watching a video, or reading an articles, have lower completion, and it seems like people are starting those section, but are not completing them. However looking closer at the course structure, it seems that step 2.20 is also a quiz. However engagement for this quiz (step) does not seem to deviate much from completion of the step. So why is this happening?
+The first thing to mention is that the glossary and references have a high engagement and a low completion. This is obviously expected as there is nothing to complete there. However the fact that engagement was high means that this was a section that participants found helpful (potentially because they did not now the meaning of some terminology). This section is not present in the other runs, so the developers might want to consider re introducing it. Now what is actually more interesting is the other findings. It seems like parts of the course where participants have to complete actions, rather than just watching a video, or reading an articles, have lower completion, and it seems like people are starting those section, but are not completing them. However looking closer at the course structure, it seems that step 2.20 is also a quiz. However engagement for this quiz (step) does not seem to deviate much from completion of the step. So why is this happening?
 Looking more closely at the quizzes and the test, the following are found: 
 
 ``` {r quiz and test steps, fig.width = 5, fig.height = 5, echo = FALSE}
@@ -356,7 +356,7 @@ It seems that some videos have longer duration. In order to see if this affects 
 par(mfrow = c(1, 2))
 # RUN 4 
 plot(cyber.security.4_video.stats$viewed_ninetyfive_percent, cyber.security.4_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 4)")
 abline(lm(cyber.security.4_video.stats$video_duration ~ cyber.security.4_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -364,7 +364,7 @@ text(65, 400, expression(r == -0.817063))
 
 # RUN 5 
 plot(cyber.security.5_video.stats$viewed_ninetyfive_percent, cyber.security.5_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 5)")
 abline(lm(cyber.security.5_video.stats$video_duration ~ cyber.security.5_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -372,7 +372,7 @@ text(74, 400, expression(r == -0.6827021))
 
 # RUN 6 
 plot(cyber.security.6_video.stats$viewed_ninetyfive_percent, cyber.security.6_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 6)")
 abline(lm(cyber.security.6_video.stats$video_duration ~ cyber.security.6_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -381,7 +381,7 @@ text(70, 400, expression(r == -0.7175826))
 # RUN 7 
 
 plot(cyber.security.7_video.stats$viewed_ninetyfive_percent, cyber.security.7_video.stats$video_duration,
-     xlab = "% of people who watched 100% of the video", ylab = "Video duration in minutes",
+     xlab = "% of people who watched 95% of the video", ylab = "Video duration in minutes",
      main = "Plot of video duration vs engagement (Run 7)")
 abline(lm(cyber.security.7_video.stats$video_duration ~ cyber.security.7_video.stats$viewed_ninetyfive_percent),
        lty = 2 , col = "red")
@@ -396,19 +396,19 @@ In order to get a better idea of which videos are more popular the following plo
 ```{r barplot video engagement, echo=FALSE, fig.width= 14, fig.height=10}
 # RUN 4
 d4f_plot = ggplot(d4f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 4)") + ylim(0,27)
 
 # RUN 5
 d5f_plot = ggplot(d5f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 5)") + ylim(0,27)
 
 # RUN 6
 d6f_plot = ggplot(d6f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 6)") + ylim(0,27)
 
 # RUN 7
 d7f_plot = ggplot(d7f, aes(x = as.factor(step), y = left, fill = factor(step))) + geom_bar(stat="identity") + xlab("Step number") +
-  ylab("People leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
+  ylab("% of people leaving") + ggtitle("Plot of step number against percentage of people leaving (Run 7)") + ylim(0,27)
 
 grid.arrange(d4f_plot, d5f_plot, d6f_plot, d7f_plot)
 ```
@@ -421,7 +421,7 @@ Also what is quite interesting is that video 2.4 has the longest duration, but i
 
 \newpage
 ## Conclusions 
-For the analysis above three cycles of the CRISP DM methodology were used. The first one aimed to investigate whether the age and gender of the participants plays a role in their engagement in the course. What was found was that even though the number of males and females who participate in the course are quite similar, there is a difference in the gender of the participants that actually complete the course. It seems like more males tend to complete the course when compared to females. Moreover looking at the age range, it was found that one of the runs with the lowest participation had more participants that were in the age range of 46-55, 56-65 and >65, when compared to most successful runs, in which more younger people in the 18-25 and 26-35 age ranges had participated. However when looking at the people who completed the course, it seems that in general the higher completion percentage was in people that belong in the 26-35 and 36-45 age ranges. From the two findings above what can be suggested to the course developers, if their aim is to achieve higher completion rates, would be to target more males and also people in the 26-45 age range. However when making decisions based on these conclusions, care should be taken since in general most participants had not registered their age or gender, so the analysis was made only on a sample of the participants and may not be very representative of the participants population. So what the course developers could do in order to get some more accurate conclusions, would be to make the age range and gender field compulsory for the participants. Moreover there are other fields like employment status and higher education limit, that the participants can fill, but again is not compulsory. Making these field compulsory on registration would give an even better idea of the target group of the course.   
+For the analysis above three cycles of the CRISP DM methodology were used. The first  cycle investigates whether differences observed between participation and completion are connected with the gender or age range of the participants. This first cycle analyses primarily runs 4-7, because they have quite similar number of participants but different completion rates. What was found was that even though the number of males and females who participate in the course are quite similar, there is a difference in the gender of the participants that actually complete the course. It seems like more males tend to complete the course when compared to females. Moreover looking at the age range, it was found that one of the runs with the lowest participation had more participants that were in the age range of 46-55, 56-65 and >65, when compared to most successful runs, in which more younger people in the 18-25 and 26-35 age ranges had participated. So this is an indication that female participants stop engaging at some point of the course.However when looking at the people who completed the course, it seems that in general the higher completion percentage was in people that belong in the 26-35 and 36-45 age ranges. From the two findings above what can be suggested to the course developers, if their aim is to achieve higher completion rates, would be to target more males and also people in the 26-45 age range. However when making decisions based on these conclusions, care should be taken since in general most participants had not registered their age or gender, so the analysis was made only on a sample of the participants and may not be very representative of the participants population. So what the course developers could do in order to get some more accurate conclusions, would be to make the age range and gender field compulsory for the participants. Moreover there are other fields like employment status and higher education limit, that the participants can fill, but again is not compulsory. Making these field compulsory on registration would give an even better idea of the target group of the course.   
 
 The second cycle, investigated participants engagement with the steps of the course. What was found was that in general there is a steeper decline in engagement during the first week, and then for the second and third week there is a stabilization. Moreover, in general people who engage with the steps seem to be finishing them. However it was found that there were some specific steps were people engage with them but do not finish them. These steps were identified to be the quizzes and the test. So it seems that participants do not enjoy that much these kind of activities. In addition, a very interesting founding was that, participants seem to engage more with shorter quizzes (that have less number of questions), rather than longer quizzes. So course developers could look to make these activities shorter, or replace them with other activities that participants seem to enjoy more. 
 
